@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certified Mover Group</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    container: {
+                        center: true,
+                        padding: '20px',
+                        screens: {
+                            '2xl': '1180px',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-[#FAFAFA]">
+    <!-- Navigation -->
+    <nav class="py-3 sm:py-5">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="/assets/images/svg/nav-logo.svg" alt="Certified Mover Group" class="h-10 w-auto max-w-[170px]">
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex xl:space-x-9 lg:space-x-5">
+                    <a href="#" class="text-[#06599F] hover:text-[#06599F] transition-colors text-base">Home</a>
+                    <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base">About Us</a>
+                    <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base">Services</a>
+                    <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base">How It Works</a>
+                    <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base">Testimonials</a>
+                    <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base">Contact Us</a>
+                </div>
+                
+                <!-- Desktop Button -->
+                <div class="hidden lg:block">
+                    <button class="bg-[#06599F] text-white px-8 py-4 rounded-[12px] hover:bg-[#054a85] transition-colors text-base">
+                        Get Free Quotes
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-button" class="text-[#010101] hover:text-[#06599F] focus:outline-none">
+                        <!-- Hamburger Icon (default) -->
+                        <svg id="hamburger-icon" class="h-6 w-6 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <!-- Cross Icon (hidden by default) -->
+                        <svg id="cross-icon" class="h-6 w-6 hidden transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden absolute top-[76px] left-0 right-0 bg-white shadow-lg z-50 transition-all duration-300 ease-in-out transform origin-top scale-y-0 opacity-0">
+                <div class="container mx-auto py-4">
+                    <div class="flex flex-col space-y-3">
+                        <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base py-2">Home</a>
+                        <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base py-2">About Us</a>
+                        <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base py-2">Services</a>
+                        <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base py-2">How It Works</a>
+                        <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base py-2">Testimonials</a>
+                        <a href="#" class="text-[#010101] hover:text-[#06599F] transition-colors text-base py-2">Contact Us</a>
+                        <button class="bg-[#06599F] text-white px-8 py-4 rounded-[12px] hover:bg-[#054a85] transition-colors text-base w-full">
+                            Get Free Quotes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-[50px] sm:py-[60px] md:py-20 lg:py-[100px] xl:pt-[109px] xl:pb-[100px]">
+        <div class="container mx-auto">
+            <div class="grid lg:grid-cols-2 gap-6 items-center mx-auto max-w-[500px] sm:max-w-[700px] md:max-w-[850px] lg:max-w-[100%]">
+                <!-- Left Content -->
+                <div>
+                    <!-- Badge -->
+                    <div class="flex items-center justify-center lg:justify-start gap-3">
+                        <p class="text-[#06599F] font-semibold text-lg sm:text-xl md:text-2xl leading-none mb-0">
+                            Your trusted partners
+                        </p>
+                        <img src="/assets/images/svg/star.svg" alt="star">
+                    </div>
+                    
+                    <!-- Heading -->
+                    <h1 class="text-[#010101] font-medium leading-tight text-[30px] sm:text-[36px] md:text-[42px] lg:text-[50px] xl:text-[70px] text-center lg:text-start" style="margin-top: 10px; line-height: 120%;">
+                        Safe, Fast & Reliable Packers and <span class="text-[#06599F]">Movers</span>
+                    </h1>
+                    
+                    <!-- Paragraph -->
+                    <p class="text-[#1E1E1E] text-[14px] sm:text-base mt-5 text-center lg:text-start" style="line-height: 150%; margin-top: 20px;">
+                        We provide professional packing and moving services to make your relocation smooth and stress-free. Whether you are moving your home, office, or vehicle, our expert team ensures safe handling and timely delivery of your belongings.
+                    </p>
+                    
+                    <!-- Buttons -->
+                    <div class="flex mt-4 lg:mt-10 justify-center lg:justify-start">
+                        <button class="bg-[#06599F] text-white py-3 px-6 sm:px-8 sm:py-4 rounded-[12px] hover:bg-[#054a85] transition-colors text-[14px] sm:text-base">
+                            Get Free Quote
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Right Image Section -->
+                <div class="relative w-full sm:w-[80%] lg:w-full mx-auto">
+                    <!-- Wrapper -->
+                    <div class="relative">
+                        <!-- Image -->
+                        <img src="assets/images/webp/hero-img.webp" alt="Certified Movers" class="rounded-lg w-full h-auto">
+                        
+                        <!-- Box from screenshot -->
+                        <div class="absolute bottom-0 left-0 w-full max-w-[356px]">
+                            <div class="relative bg-[#F97316] rounded-lg shadow-lg p-5 max-w-sm mx-auto">
+                                <h3 class="text-[16px] sm:text-[20px] font-semibold text-[#FFFFFF] mb-[6px]">Join Our Wellness Circle.</h3>
+                                <p class="text-[14px] sm:text-base text-white mb-3">Just one step toward better days.</p>
+                                
+                                <!-- Group 4 PNG Image -->
+                                <img src="assets/images/png/Group 4.png" alt="Team Members" class="w-[110px] h-auto rounded-lg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="pb-[50px] sm:pb-[60px] md:pb-[80px] pt-[0px] lg:pb-[100px] xl:py-[100px]">
+        <div class="container mx-auto">
+            <div class="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-6 items-center">
+                <!-- Left Content - Marquees -->
+                <div>
+                    <!-- Marquee 1 -->
+                    <div class="flex overflow-hidden space-x-4">
+                        <div class="flex space-x-4 logos-overflow__logos-wrapper1 Image-22 basis-auto">
+                            <img src="assets/images/webp/marquee-img.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee-img-2.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee-img-3.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee-img-4.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee-img-5.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                        </div>
+                        <div class="flex space-x-4 logos-overflow__logos-wrapper1 Image-22 basis-auto" aria-hidden="true">
+                            <img src="assets/images/webp/marquee-img.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee-img-2.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee-img-3.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee-img-4.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee-img-5.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                        </div>
+                    </div>
+                    <!-- Marquee 2 -->
+                    <div class="flex overflow-hidden space-x-4 mt-4">
+                         <div class="flex space-x-4 logos-overflow__logos-wrapper2 Image-22 basis-auto">
+                            <img src="assets/images/webp/marquee_img_1.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee_img_2.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee_img_3.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee_img_4.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee_img_5.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                        </div>
+                        <div class="flex space-x-4 logos-overflow__logos-wrapper2 Image-22 basis-auto" aria-hidden="true">
+                            <img src="assets/images/webp/marquee_img_1.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee_img_2.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee_img_3.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee_img_4.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                            <img src="assets/images/webp/marquee_img_5.webp" alt="mover 1" class="rounded-lg w-[200px] h-[200px] object-cover">
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <!-- Badge -->
+                    <div class="flex items-center justify-center lg:justify-start gap-3">
+                        <p class="text-[#06599F] font-semibold text-lg sm:text-xl md:text-2xl leading-none mb-0">
+                            About Us
+                        </p>
+                        <img src="/assets/images/svg/star.svg" alt="star">
+                    </div>
+                    
+                    <!-- Heading -->
+                    <h2 class="text-[#010101] text-[28px] sm:text-[32px] md:text-[40px] font-bold leading-tight text-center lg:text-start" style="margin-top: 10px; line-height: 120%;">
+                        Professional <span class="text-[#06599F] block">Packers & Movers</span>
+                    </h2>
+                    
+                    <!-- Paragraph -->
+                    <p class="text-[#434343] text-[14px] sm:text-base mt-2 sm:mt-4 md:mt-5 text-center lg:text-start" style="line-height: 150%; margin-top: 20px;">
+We are a trusted relocation company dedicated to providing safe, reliable, and affordable moving services. With trained professionals, high-quality packing materials, and modern transport vehicles, we ensure your belongings reach their destination safely and on time.
+                    </p>
+                                        <!-- Paragraph -->
+                    <p class="text-[#434343] text-[14px] sm:text-base mt-2 sm:mt-4 md:mt-5 text-center lg:text-start" style="line-height: 150%; margin-top: 20px;">
+Our goal is to make relocation simple and stress-free for every customer.
+                    </p>
+
+                    <!-- Buttons -->
+                    <div class="flex mt-4 lg:mt-10 justify-center lg:justify-start">
+                        <button class="bg-[#06599F] text-white py-3 px-6 sm:py-4 sm:px-8 rounded-[12px] hover:bg-[#054a85] transition-colors text-[14px] sm:text-base">
+                            Read More
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <section class="bg-[#06599F] py-[50px] sm:py-[60px] md:py-20 lg:py-[100px]">
+            <div class="container">
+         <div class="grid grid-cols-2 gap-6 items-end">
+
+            <div class="flex flex-col">
+            <!-- Badge -->
+            <div class="flex items-center gap-3">
+                <p class="text-[#FAFAFA] font-semibold text-lg sm:text-xl md:text-2xl leading-none mb-0">
+                 Our Services
+                </p>
+                <img src="/assets/images/svg/white-star.svg" alt="star">
+            </div>
+
+            <!-- Heading -->
+            <h2 class="text-[#FAFAFA] text-[28px] sm:text-[32px] md:text-[40px] font-bold tracking-[-0.1px]" style="margin-top: 10px; line-height: 120%;">
+             Moving Services We Provide
+            </h2>
+
+            <!-- Paragraph -->
+            <p class="text-[#E9E9E9] text-[14px] sm:text-base mt-2 sm:mt-4 md:mt-5 max-w-[892px] mx-auto" style="line-height: 150%; margin-top: 20px;">
+               We provide safe, reliable, and efficient packing and moving services to ensure a smooth and stress-free relocation experience.
+            </p>
+
+
+              <div class="flex flex-col mt-10">
+                <div class="service-faq">
+                    <!-- FAQ Item 1 -->
+                    <div class="service-faq-item">
+                        <button class="service-faq-button w-full text-left flex justify-between items-center py-4 px-0 transition-all duration-300" onclick="toggleServiceFaq(this)">
+                            <span class="text-[#FAFAFA] font-medium text-[18px]">Household Shifting</span>
+                            <svg class="service-faq-icon w-5 h-5 text-[#FAFAFA] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="service-faq-content hidden overflow-hidden transition-all duration-300">
+                             <p class="text-[#E9E9E9] text-[14px] sm:text-base leading-relaxed">
+                                    We offer residential moving, commercial relocation, vehicle transportation, packing and unpacking services, and secure storage solutions.
+                             </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="service-faq-item border-t border-[#9B9B9B]">
+                        <button class="service-faq-button w-full text-left flex justify-between items-center py-4 px-0 transition-all duration-300" onclick="toggleServiceFaq(this)">
+                            <span class="text-[#FAFAFA] font-medium text-[18px]">Office Relocation</span>
+                            <svg class="service-faq-icon w-5 h-5 text-[#FAFAFA] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="service-faq-content hidden overflow-hidden transition-all duration-300">
+                                <p class="text-[#E9E9E9] text-[14px] sm:text-base leading-relaxed">
+                                    We use high-quality packing materials, trained professionals, and modern equipment. All staff is background-checked and insured.
+                                </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="service-faq-item border-t border-[#9B9B9B]">
+                        <button class="service-faq-button w-full text-left flex justify-between items-center py-4 px-0 transition-all duration-300" onclick="toggleServiceFaq(this)">
+                            <span class="text-[#FAFAFA] font-medium text-[18px]">Vehicle Transportation</span>
+                            <svg class="service-faq-icon w-5 h-5 text-[#FAFAFA] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="service-faq-content hidden overflow-hidden transition-all duration-300">
+                                <p class="text-[#E9E9E9] text-[14px] sm:text-base leading-relaxed">
+                                    We provide moving services across major cities and states. Contact us with your specific locations for availability.
+                                </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="service-faq-item border-t border-[#9B9B9B]">
+                        <button class="service-faq-button w-full text-left flex justify-between items-center py-4 px-0 transition-all duration-300" onclick="toggleServiceFaq(this)">
+                            <span class="text-[#FAFAFA] font-medium text-[18px]">Packing & Unpacking</span>
+                            <svg class="service-faq-icon w-5 h-5 text-[#FAFAFA] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="service-faq-content hidden overflow-hidden transition-all duration-300">
+                                <p class="text-[#E9E9E9] text-[14px] sm:text-base leading-relaxed">
+                                    Yes, we provide comprehensive transit insurance coverage for all your belongings with additional options available.
+                                </p>
+                        </div>
+                    </div>
+
+                      <!-- FAQ Item 5 -->
+                    <div class="service-faq-item border-t border-[#9B9B9B]">
+                        <button class="service-faq-button w-full text-left flex justify-between items-center py-4 px-0 transition-all duration-300" onclick="toggleServiceFaq(this)">
+                            <span class="text-[#FAFAFA] font-medium text-[18px]">Loading & Unloading</span>
+                            <svg class="service-faq-icon w-5 h-5 text-[#FAFAFA] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="service-faq-content hidden overflow-hidden transition-all duration-300">
+                                <p class="text-[#E9E9E9] text-[14px] sm:text-base leading-relaxed">
+                                    Yes, we provide comprehensive transit insurance coverage for all your belongings with additional options available.
+                                </p>
+                        </div>
+                    </div>
+
+                      <!-- FAQ Item 6 -->
+                    <div class="service-faq-item border-t border-[#9B9B9B]">
+                        <button class="service-faq-button w-full text-left flex justify-between items-center py-4 px-0 transition-all duration-300" onclick="toggleServiceFaq(this)">
+                            <span class="text-[#FAFAFA] font-medium text-[18px]">Storage & Warehousing</span>
+                            <svg class="service-faq-icon w-5 h-5 text-[#FAFAFA] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="service-faq-content hidden overflow-hidden transition-all duration-300">
+                                <p class="text-[#E9E9E9] text-[14px] sm:text-base leading-relaxed">
+                                    Yes, we provide comprehensive transit insurance coverage for all your belongings with additional options available.
+                                </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            </div>
+
+            <div class="relative w-full flex items-end max-h-[464px] h-full">
+                <img class="max-w-[461px]" src="/assets/images/webp/main-img.webp" alt="main-img">
+                <img class="max-w-[250px] absolute right-0 top-0" src="/assets/images/webp/absoluted-img.webp" alt="absoluted-img">
+            </div>
+            
+         </div>
+            </div>
+        </section>
+
+    <section class="py-[50px] sm:py-[60px] md:py-20 lg:py-[100px]">
+        <div class="container">
+            <!-- Badge -->
+            <div class="flex items-center justify-center gap-3">
+                <p class="text-[#06599F] font-semibold text-lg sm:text-xl md:text-2xl leading-none mb-0">
+                    Our Process
+                </p>
+                <img src="/assets/images/svg/star.svg" alt="star">
+            </div>
+
+            <!-- Heading -->
+            <h2 class="text-[#010101] text-[28px] sm:text-[32px] md:text-[40px] font-bold leading-tight text-center" style="margin-top: 10px; line-height: 120%;">
+                Simple Steps to a <span class="text-[#06599F]">Smooth Move</span>
+            </h2>
+
+            <!-- Paragraph -->
+            <p class="text-[#000000] text-[14px] sm:text-base mt-2 sm:mt-4 md:mt-5 text-center max-w-[892px] mx-auto" style="line-height: 150%; margin-top: 20px;">
+                Our moving process is designed to make relocation easy and stress-free. From the moment you request a quote to the final delivery, our professional team carefully handles every step to ensure your belongings are packed, transported, and delivered safely to your new destination.
+            </p>
+
+            <div class="grid sm:grid-cols-2 grid-rows-2 gap-4 sm:gap-6 mt-10">
+                <div class="process-card">
+                 <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.93574 3.56997C4.25645 3.78677 3.64941 4.35767 3.39648 5.02974C3.25195 5.41997 3.25195 5.52837 3.25195 18.3772C3.25195 31.0959 3.25195 31.3344 3.39648 31.5584C3.46875 31.6885 3.64219 31.8475 3.77227 31.9126C4.06133 32.0643 4.58887 32.0788 4.85625 31.9342C4.96465 31.8764 6.59785 30.3299 8.48398 28.4944L11.9238 25.1485L21.8459 25.134L31.7607 25.1124L32.1943 24.9389C32.7869 24.7004 33.3795 24.1006 33.5963 23.537L33.748 23.1106L33.7336 14.1424L33.7119 5.16704L33.5457 4.8563C33.2928 4.37935 32.8592 3.95298 32.3967 3.7145L31.9775 3.50493L18.6084 3.49048C7.7541 3.48325 5.18145 3.49771 4.93574 3.56997ZM31.4211 5.74517C31.4934 5.76685 31.5078 7.51568 31.4934 14.287L31.4717 22.7999L21.3184 22.836C11.3168 22.8721 11.1578 22.8721 10.9338 23.0167C10.8109 23.0961 9.53184 24.3102 8.08652 25.7122L5.45605 28.2631L5.43438 17.0836C5.42715 9.18501 5.4416 5.87525 5.49941 5.81021C5.54277 5.75962 5.64395 5.70904 5.73066 5.69458C5.99082 5.65845 31.3199 5.70904 31.4211 5.74517Z" fill="#151515"/>
+                    <path d="M9.35117 13.1523C9.27168 13.1812 9.10547 13.3258 8.97539 13.4703C8.78027 13.6943 8.74414 13.7955 8.74414 14.099C8.74414 14.5254 8.86699 14.7928 9.17773 15.0602L9.40898 15.248H10.9627C12.7549 15.248 12.8705 15.2119 13.1523 14.6338C13.398 14.1279 13.2174 13.5137 12.7477 13.2174C12.5453 13.0945 12.3791 13.0801 11.0133 13.0873C10.1822 13.0873 9.43789 13.1162 9.35117 13.1523Z" fill="#151515"/>
+                    <path d="M16.7223 13.2391C16.4332 13.4631 16.3465 13.5859 16.267 13.8678C16.1514 14.258 16.2959 14.6916 16.6283 14.9951L16.9102 15.248H18.4855C19.8875 15.248 20.0754 15.2336 20.2561 15.1107C20.9498 14.6555 20.9426 13.6943 20.2344 13.2029C20.0826 13.0945 19.8586 13.0801 18.4928 13.0801C16.9896 13.0801 16.9246 13.0873 16.7223 13.2391Z" fill="#151515"/>
+                    <path d="M24.2307 13.2318C23.9055 13.4342 23.6814 13.9328 23.7465 14.2869C23.8115 14.6699 24.0211 14.9807 24.2957 15.1324C24.5053 15.2408 24.7221 15.2553 26.1096 15.2336L27.685 15.2119L27.974 14.9084C28.227 14.6338 28.2559 14.5615 28.2559 14.2363C28.2559 13.8027 28.133 13.5354 27.8223 13.268L27.591 13.0801H26.0301C24.5775 13.0801 24.4475 13.0945 24.2307 13.2318Z" fill="#151515"/>
+                 </svg>
+                    <h4 class="font-normal text-[24px] text-[#010101] leading-[100%] mt-[10px] transition-all">Request a Quote</h4>
+                    <p class="text-[#1E1E1E] font-normal text-base leading-[150%] mt-3 transition-all">Contact us and share your moving details.</p>
+                </div>
+
+  <div class="process-card">
+               <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_53_42)">
+<path d="M17.127 0.166191C16.9102 0.260136 13.2318 2.18963 8.96094 4.45877C1.76328 8.27439 1.16348 8.60682 0.751563 9.00428C0.426367 9.32225 0.274609 9.53905 0.158984 9.84979L0 10.2689V18.5V26.731L0.158984 27.1502C0.274609 27.4609 0.426367 27.6777 0.751563 27.9957C1.15625 28.3931 1.77051 28.7256 8.96094 32.5412C13.2318 34.8103 16.9102 36.7398 17.127 36.8265C17.6111 37.0289 18.4566 37.0578 18.9408 36.8916C19.1143 36.8265 22.9949 34.8826 27.5693 32.5701C35.3379 28.6388 35.9088 28.3353 36.2846 27.9668C36.5736 27.6849 36.7326 27.4465 36.841 27.1502L37 26.731V18.5V10.2689L36.841 9.84979C36.7326 9.5535 36.5736 9.31502 36.2846 9.03319C35.9088 8.66463 35.3307 8.35389 27.3887 4.33592L18.8975 0.0433388L18.2109 0.0144348C17.6184 -1.90735e-05 17.4738 0.0216599 17.127 0.166191ZM25.8277 6.07752C30.0047 8.1949 33.4373 9.92928 33.4518 9.94373C33.4662 9.95819 32.1582 10.623 30.5395 11.418L27.6055 12.856L20.1982 8.93924C16.1297 6.78572 12.8199 5.00799 12.8344 4.98631C12.9572 4.86346 17.9797 2.24744 18.0953 2.24022C18.1748 2.24022 21.658 3.96737 25.8277 6.07752ZM17.6979 10.1678C21.658 12.2562 24.9389 14.0051 24.9822 14.0484C25.0545 14.1135 24.2234 14.5543 21.5857 15.8695L18.1025 17.6111L10.8254 13.8099C6.82188 11.7215 3.53379 9.99432 3.51211 9.97264C3.4543 9.9076 10.2906 6.29432 10.399 6.33045C10.4568 6.35213 13.7377 8.07205 17.6979 10.1678ZM34.767 26.2541C34.7164 26.3914 33.8348 26.8611 30.3732 28.6172C27.9957 29.8168 24.5125 31.5801 22.6408 32.534L19.2227 34.2683V26.9262V19.584L22.6914 17.8496C24.5992 16.8957 26.1746 16.1152 26.1891 16.1152C26.2107 16.1152 26.2324 17.0041 26.2469 18.0808C26.2686 19.8441 26.283 20.0754 26.3986 20.2705C26.6154 20.6174 26.8684 20.7691 27.3164 20.798C27.7861 20.8269 28.0969 20.668 28.3281 20.2922C28.4654 20.0681 28.4727 19.9236 28.4727 17.5099V14.959L31.6379 13.3764L34.7959 11.7937L34.8176 18.9336C34.8248 23.1539 34.8031 26.1457 34.767 26.2541ZM11.1506 16.5127L16.9752 19.5478L16.9824 26.8611C16.9824 30.8863 16.9607 34.1816 16.9318 34.1816C16.8957 34.1816 13.6076 32.4472 9.61133 30.3226C4.32148 27.5187 2.32695 26.4203 2.26191 26.2974C2.18965 26.1601 2.16797 24.5053 2.16797 18.9842V11.8443L3.74336 12.6609C4.61055 13.109 7.94199 14.8433 11.1506 16.5127Z" fill="#151515"/>
+<path d="M11.5987 20.8631C11.483 20.9281 10.7242 21.3617 9.92209 21.8386C9.11272 22.3084 8.41174 22.7131 8.35393 22.7347C8.28166 22.7636 8.13713 22.5613 7.8842 22.0843C7.47951 21.34 7.29162 21.1449 6.85803 21.0293C6.08479 20.8197 5.36213 21.5351 5.52112 22.3445C5.59338 22.6914 6.94475 25.0761 7.16155 25.2351C7.41448 25.423 7.83362 25.5097 8.12268 25.4302C8.50569 25.3218 12.8055 22.7781 13.0223 22.5324C13.4342 22.0627 13.3041 21.2099 12.7766 20.8847C12.4875 20.7113 11.9094 20.6968 11.5987 20.8631Z" fill="#151515"/>
+</g>
+<defs>
+<clipPath id="clip0_53_42">
+<rect width="37" height="37" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+
+                    <h4 class="font-normal text-[24px] text-[#010101] leading-[100%] mt-[10px] transition-all">Packing</h4>
+                    <p class="text-[#1E1E1E] font-normal text-base leading-[150%] mt-3 transition-all">Our team professionally packs your belongings.</p>
+                </div>
+
+                  <div class="process-card">
+               <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18.1314 1.45981C17.9219 1.5104 17.2859 2.08852 15.1686 4.11919C13.6871 5.54282 12.4152 6.8147 12.3502 6.952C12.1189 7.37837 12.1984 7.94204 12.5236 8.29614C12.8271 8.62856 13.015 8.67192 14.3375 8.72251L15.6094 8.76587V12.1985V15.6311L14.6916 15.5877C14.1785 15.5588 12.6176 15.5372 11.2229 15.5372H8.67188V14.2797C8.67188 13.1018 8.66465 13.0151 8.50566 12.7911C8.26719 12.437 7.9998 12.2708 7.60234 12.2274C7.34941 12.2057 7.17598 12.2346 6.98086 12.3358C6.82188 12.4153 5.65117 13.5788 4.11914 15.1686C1.82832 17.5534 1.5248 17.9002 1.45254 18.1821C1.39473 18.4133 1.39473 18.5868 1.45254 18.818C1.5248 19.0999 1.82832 19.4467 4.11914 21.8315C5.65117 23.4213 6.82188 24.5848 6.98086 24.6643C7.31328 24.8377 7.86973 24.8016 8.15156 24.592C8.6502 24.2235 8.72969 23.8983 8.73691 22.3807L8.74414 21.3907H12.1406H15.5371V24.8594V28.3282H14.2797C13.1018 28.3282 13.015 28.3354 12.791 28.4944C12.4369 28.7329 12.2707 29.0002 12.2273 29.3977C12.2057 29.6506 12.2346 29.8241 12.3357 30.0192C12.4947 30.3227 17.6111 35.2801 17.958 35.468C18.2326 35.6125 18.7602 35.6125 19.042 35.468C19.36 35.3018 24.498 30.3372 24.6498 30.0481C24.8811 29.6217 24.8016 29.0508 24.4764 28.704C24.1729 28.3715 23.985 28.3282 22.6625 28.2776L21.3906 28.2342V24.8016V21.369L22.3156 21.4124C22.8215 21.4413 24.3824 21.4629 25.7844 21.4629H28.3281V22.7204C28.3281 23.8983 28.3354 23.985 28.4943 24.209C28.7328 24.5631 29.0002 24.7293 29.3977 24.7727C29.6506 24.7944 29.824 24.7655 30.0191 24.6643C30.3227 24.5053 35.2801 19.3889 35.468 19.042C35.6342 18.7241 35.6125 18.1315 35.4246 17.8641C35.085 17.3872 30.2721 12.4659 30.0191 12.3358C29.6867 12.1624 29.1303 12.1985 28.8484 12.4081C28.3498 12.7766 28.2631 13.1018 28.2559 14.576V15.6094H24.8594H21.4629V12.1407V8.67192H22.7203C23.8982 8.67192 23.985 8.6647 24.209 8.50571C24.5631 8.26724 24.7293 7.99985 24.7727 7.60239C24.7943 7.34946 24.7654 7.17603 24.6643 6.98091C24.5848 6.82192 23.4213 5.65122 21.8314 4.11919C19.4611 1.84282 19.0998 1.52485 18.8252 1.45259C18.4711 1.36587 18.4855 1.36587 18.1314 1.45981ZM21.0293 5.09477L23.5008 7.47954L22.2072 7.51567C20.7836 7.55903 20.6535 7.59517 20.3789 8.04321C20.2416 8.26724 20.2344 8.44067 20.2344 12.3719C20.2344 16.3827 20.2344 16.4766 20.3789 16.6211C20.5234 16.7657 20.6174 16.7657 24.6354 16.7657H28.74L28.9785 16.5995C29.441 16.2887 29.5133 16.0791 29.5566 14.7495L29.5928 13.5571L31.9414 15.9997C33.235 17.3438 34.29 18.4639 34.29 18.5C34.29 18.529 33.2205 19.6635 31.9053 21.0293L29.5205 23.5008L29.4844 22.2073C29.441 20.7836 29.4049 20.6536 28.9568 20.379C28.7328 20.2417 28.5594 20.2344 24.6281 20.2344C20.6174 20.2344 20.5234 20.2344 20.3789 20.379C20.2344 20.5235 20.2344 20.6174 20.2344 24.6354V28.7401L20.4006 28.9786C20.6969 29.4266 20.8848 29.4844 22.2289 29.5422L23.4357 29.5928L20.9932 31.9415C19.649 33.235 18.5289 34.2901 18.5 34.2901C18.4711 34.2901 17.3365 33.2133 15.9707 31.9053L13.4992 29.5206L14.7928 29.4844C16.2164 29.4411 16.3465 29.4049 16.6211 28.9569C16.7584 28.7329 16.7656 28.5594 16.7656 24.6209C16.7656 20.6174 16.7656 20.5235 16.6211 20.379C16.4766 20.2344 16.3826 20.2344 12.3646 20.2344H8.25996L8.02148 20.4006C7.55898 20.7114 7.48672 20.9209 7.44336 22.2506L7.40723 23.4358L5.05859 20.9932C3.76504 19.6491 2.70996 18.529 2.70996 18.5C2.70996 18.4711 3.78672 17.3366 5.09473 15.9708L7.47949 13.4993L7.51562 14.7928C7.55898 16.2165 7.59512 16.3465 8.04316 16.6211C8.26719 16.7584 8.44063 16.7657 12.3791 16.7657C16.3826 16.7657 16.4766 16.7657 16.6211 16.6211C16.7656 16.4766 16.7656 16.3827 16.7656 12.3647V8.26001L16.5994 8.02153C16.3031 7.57349 16.1152 7.51567 14.7711 7.45786L13.5643 7.40727L16.0141 5.04419C17.3582 3.74341 18.4855 2.68833 18.5072 2.69556C18.5361 2.70278 19.6707 3.77954 21.0293 5.09477Z" fill="#151515"/>
+</svg>
+
+                    <h4 class="font-normal text-[24px] text-[#010101] leading-[100%] mt-[10px] transition-all">Moving</h4>
+                    <p class="text-[#1E1E1E] font-normal text-base leading-[150%] mt-3 transition-all">Your goods are safely transported to the new location.</p>
+                </div>
+
+                  <div class="process-card">
+                <svg width="36" height="29" viewBox="0 0 36 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M19.8965 1.12026C18.7836 1.74175 17.649 2.36323 17.3672 2.51499C13.9201 4.37944 9.38181 6.90874 9.25896 7.05327C9.1072 7.21226 9.09275 7.29897 9.09275 8.08667V8.95386L4.80017 8.96831C0.565403 8.98999 0.500364 8.98999 0.29802 9.14175C-0.077761 9.42358 -0.0994407 9.95835 0.240208 10.298L0.413645 10.4714H4.75681H9.09275V11.7361V13.0007H6.99704C5.34216 13.0007 4.84353 13.0224 4.64841 13.1019C4.39548 13.2103 4.17868 13.5283 4.17868 13.7957C4.17868 14.0052 4.3738 14.3521 4.53279 14.446C4.6195 14.4894 5.50837 14.5183 6.88142 14.5183H9.09275V16.3611V18.2039H6.07927C4.25818 18.2039 2.95017 18.2328 2.79841 18.2761C2.45876 18.3701 2.29978 18.6158 2.29978 19.0277C2.29978 19.2951 2.33591 19.3746 2.5238 19.5335L2.74782 19.7214H5.92029H9.09275V20.6175C9.09275 21.3619 9.11443 21.5353 9.22282 21.6654C9.28786 21.7449 12.1929 23.3781 15.6689 25.2859C20.6047 27.9958 22.05 28.7546 22.2451 28.7546C22.4402 28.7546 23.8711 28.0031 28.8213 25.2859C32.2972 23.3781 35.2023 21.7449 35.2746 21.6654C35.383 21.5281 35.3974 21.3113 35.3974 19.5697V17.633L35.224 17.4306C35.0722 17.2572 34.9927 17.2283 34.6748 17.2283C34.3568 17.2283 34.2773 17.2572 34.1256 17.4306C33.9521 17.633 33.9521 17.6474 33.9521 19.1722V20.7115L28.8429 23.5226C26.0246 25.0691 23.5531 26.4205 23.3508 26.5361L22.9677 26.7457V20.791V14.8435L24.6877 13.9041L26.4004 12.9574L26.4365 14.5906C26.4582 15.6673 26.5015 16.2671 26.5593 16.3683C26.675 16.5707 27.0363 16.7152 27.2965 16.6646C27.4121 16.6429 28.1492 16.2671 28.9369 15.8335C30.1437 15.1759 30.3967 15.0025 30.4978 14.8001C30.6134 14.5833 30.6279 14.316 30.6279 12.596V10.6376L32.2756 9.73433L33.916 8.83101L33.9521 10.7027L33.9883 12.5816L34.1906 12.755C34.4869 13.008 34.906 12.9935 35.1879 12.7189L35.3974 12.5093V9.8644C35.3974 7.23393 35.3974 7.22671 35.2384 7.04605C35.1445 6.9521 32.2467 5.32612 28.7996 3.43276C23.2424 0.383154 22.498 -0.00708008 22.2234 0.000146866C21.9705 0.000146866 21.5802 0.195263 19.8965 1.12026ZM27.6433 4.55288C30.6134 6.18608 33.056 7.53022 33.0633 7.53745C33.0849 7.55913 29.9414 9.2646 29.8691 9.2646C29.7607 9.2646 19.0582 3.37495 19.0943 3.33159C19.116 3.31714 19.8242 2.91968 20.6697 2.44995C21.5152 1.98022 22.2162 1.59722 22.2234 1.58999C22.2234 1.58276 24.666 2.91968 27.6433 4.55288ZM22.9099 7.23393C26.7111 9.32241 28.2142 10.1824 28.1492 10.233C28.1058 10.2763 27.8601 10.4136 27.6217 10.5365L27.1736 10.775L21.7826 7.81929C18.8197 6.20054 16.3988 4.8564 16.3988 4.83472C16.3916 4.76245 17.3744 4.26382 17.4756 4.2855C17.5334 4.29995 19.9832 5.62964 22.9099 7.23393ZM19.9687 8.57085C22.3535 9.87886 24.5937 11.1074 24.9406 11.2953C25.2875 11.4904 25.5693 11.6494 25.5549 11.6638C25.5404 11.6783 24.7961 12.0902 23.8927 12.5888L22.2451 13.4921L16.9914 10.6015C14.0935 9.01167 11.6582 7.67476 11.5715 7.62417C11.4197 7.5519 11.5426 7.46519 13.0818 6.6269L14.7584 5.70913L15.1992 5.94761C15.4377 6.08491 17.584 7.26284 19.9687 8.57085ZM16.5217 12.0974L21.5224 14.8435V20.791V26.7457L21.1467 26.5361C20.9371 26.4132 18.4656 25.0619 15.6545 23.5154L10.5381 20.7115V14.764V8.81655L11.0295 9.08393C11.3041 9.22847 13.7683 10.5871 16.5217 12.0974ZM29.1103 12.7406V13.998L28.59 14.2726C28.3009 14.4316 28.0408 14.5617 28.0119 14.5761C27.9758 14.5906 27.9541 14.0414 27.9541 13.3476V12.0974L28.5177 11.7939C28.8213 11.6277 29.0814 11.4904 29.0959 11.4832C29.1031 11.4832 29.1103 12.0468 29.1103 12.7406Z" fill="#151515"/>
+</svg>
+
+                    <h4 class="font-normal text-[24px] text-[#010101] leading-[100%] mt-[10px] transition-all">Delivery & Setup</h4>
+                    <p class="text-[#1E1E1E] font-normal text-base leading-[150%] mt-3 transition-all">We unload and place your items at the destination.</p>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <section class="pb-[50px] sm:pb-[60px] md:pb-20 lg:pb-[100px]">
+        <div class="container">
+             <div class="flex items-center justify-between md:flex-row flex-col">
+                <div class="md:max-w-[500px] lg:max-w-[600px] xl:max-w-[892px]">
+                        <!-- Badge -->
+                    <div class="flex items-center justify-center md:justify-start gap-3">
+                        <p class="text-[#06599F] font-semibold text-lg sm:text-xl md:text-2xl leading-none mb-0">
+                            Testimonials
+                        </p>
+                        <img src="/assets/images/svg/star.svg" alt="star">
+                    </div>
+                    
+                      <!-- Heading -->
+                        <h2 class="text-[#010101] text-[28px] sm:text-[32px] md:text-[40px] font-bold leading-tight text-center md:text-start" style="margin-top: 10px; line-height: 120%;">
+                        What Our Customers Say
+                        </h2>
+                    
+                    <!-- Paragraph -->
+                    <p class="text-[#1E1E1E] text-[14px] sm:text-base mt-5 text-center md:text-start" style="line-height: 150%; margin-top: 20px;">
+                        We take pride in delivering reliable and stress-free moving experiences. See what our happy customers have to say about our professional packing, careful handling, and timely delivery services. Their trust and satisfaction motivate us to provide the best moving solutions every time.
+                    </p>
+                </div>
+                    
+                    <!-- Buttons -->
+                    <div class="flex mt-4 lg:mt-10 justify-center lg:justify-start">
+                        <button class="bg-[#06599F] text-white py-3 px-6 sm:px-8 sm:py-4 rounded-[12px] hover:bg-[#054a85] transition-colors text-[14px] sm:text-base">
+                            See More
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-center items-center md:items-stretch md:justify-between md:flex-row gap-6 mt-10">
+                    <img class="object-cover max-w-[335px] sm:max-w-[600px] md:max-w-[350px] lg:max-w-[461px] rounded-[10px]" src="./assets/images/webp/testimonials.webp" alt="testimonials">
+
+                    <div class="border-[#B5B5B5] border-[1px] p-4 sm:p-6 rounded-[10px] max-w-[600px] md:max-w-full flex flex-col justify-between gap-4">
+                        <div class="flex items-center gap-[10px]">
+                            <img class="max-w-[40px]" src="./assets/images/webp/small-testimonial-img.webp" alt="testimonials">
+                            <div>
+                                <p class="text-[14px] sm:text-base leading-[100%] text-black">Megha Soni-</p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <img class="max-w-[122px]" src="./assets/images/svg/rating.svg" alt="rating">
+                            <p class="font-normal text-[14px] sm:text-base text-[#1E1E1E] leading-[150%] mt-3">“I had an excellent experience with this packers and movers service. The team was very professional, polite, and efficient. They packed all my household items carefully using high-quality materials and ensured everything was transported safely. The entire relocation process was smooth, and all my belongings arrived on time without any damage. I would definitely recommend their services to anyone planning to move.”</p>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
