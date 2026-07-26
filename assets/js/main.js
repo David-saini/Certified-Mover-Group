@@ -157,6 +157,37 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof Swiper !== 'undefined') {
+        new Swiper('.testimonial-swiper', {
+            loop: true,
+            speed: 700,
+            autoplay: {
+                delay: 6500,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            slidesPerView: 1,
+            spaceBetween: 24,
+            breakpoints: {
+                768: {
+                    slidesPerView: 1,
+                },
+                1024: {
+                    slidesPerView: 1,
+                },
+            },
+        });
+    }
+});
+
 // Service FAQ Toggle Function
 function toggleServiceFaq(button) {
     const content = button.nextElementSibling;
