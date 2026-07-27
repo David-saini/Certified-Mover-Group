@@ -200,24 +200,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const formData = new FormData(form);
-            const values = {
-                'Full Name': formData.get('fullName'),
-                'Mobile No.': formData.get('mobile'),
-                'Email ID': formData.get('email'),
-                'Relocate From': formData.get('relocateFrom'),
-                'Relocate To': formData.get('relocateTo'),
-                'Relocation Date': formData.get('relocationDate'),
-                'Message': formData.get('message') || ''
-            };
-
-            const bodyLines = Object.entries(values).map(([key, value]) => `${key}: ${value}`);
-            const mailtoLink = `mailto:lakshaysaini92558@gmail.com?subject=${encodeURIComponent('Certified Mover Group Contact Form Submission')}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
-
             contactFormMessage.classList.remove('hidden', 'bg-[#FEE2E2]', 'text-[#991B1B]');
             contactFormMessage.classList.add('bg-[#ECFDF5]', 'text-[#06599F]');
-            contactFormMessage.textContent = 'Your details are ready to send. Please confirm in your email client.';
-            window.location.href = mailtoLink;
-            form.reset();
+            contactFormMessage.textContent = 'Sending your request...';
+
+            fetch(form.action, {
+                method: form.method || 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                },
+                body: formData,
+            })
+            .then(response => {
+                if (response.ok) {
+                    contactFormMessage.classList.remove('bg-[#FEE2E2]', 'text-[#991B1B]');
+                    contactFormMessage.classList.add('bg-[#ECFDF5]', 'text-[#06599F]');
+                    contactFormMessage.textContent = 'Thank you! Your request has been submitted successfully. We will contact you shortly.';
+                    form.reset();
+                } else {
+                    return response.json().then(() => {
+                        throw new Error('Submission failed.');
+                    });
+                }
+            })
+            .catch(() => {
+                contactFormMessage.classList.remove('bg-[#ECFDF5]', 'text-[#06599F]');
+                contactFormMessage.classList.add('bg-[#FEE2E2]', 'text-[#991B1B]');
+                contactFormMessage.textContent = 'Submission failed. Please try again or contact lakshaysaini92558@gmail.com directly.';
+            });
         });
 
         contactForm.addEventListener('input', function(event) {
