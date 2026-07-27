@@ -166,17 +166,17 @@ document.addEventListener('DOMContentLoaded', function() {
             let formIsValid = true;
 
             const validationFields = [
-                { name: 'fullName', message: 'Please enter your full name.' },
-                { name: 'mobile', message: 'Please enter a valid mobile number.' },
-                { name: 'email', message: 'Please enter a valid email address.' },
-                { name: 'relocateFrom', message: 'Please enter your current location.' },
-                { name: 'relocateTo', message: 'Please enter your destination.' },
-                { name: 'relocationDate', message: 'Please choose a relocation date.' }
+                { id: 'fullName', message: 'Please enter your full name.' },
+                { id: 'mobile', message: 'Please enter a valid mobile number.' },
+                { id: 'email', message: 'Please enter a valid email address.' },
+                { id: 'relocateFrom', message: 'Please enter your current location.' },
+                { id: 'relocateTo', message: 'Please enter your destination.' },
+                { id: 'relocationDate', message: 'Please choose a relocation date.' }
             ];
 
-            validationFields.forEach(({ name, message }) => {
-                const field = form.elements[name];
-                const errorEl = form.querySelector(`[data-error="${name}"]`);
+            validationFields.forEach(({ id, message }) => {
+                const field = document.getElementById(id);
+                const errorEl = form.querySelector(`[data-error="${id}"]`);
                 if (!field.checkValidity()) {
                     formIsValid = false;
                     if (errorEl) {
@@ -198,6 +198,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 contactFormMessage.textContent = 'Please fix the errors above and try again.';
                 return;
             }
+
+            document.getElementById('hiddenName').value = document.getElementById('fullName').value.trim();
+            document.getElementById('hiddenMobile').value = document.getElementById('mobile').value.trim();
+            document.getElementById('hiddenEmail').value = document.getElementById('email').value.trim();
+            document.getElementById('hiddenRelocateFrom').value = document.getElementById('relocateFrom').value.trim();
+            document.getElementById('hiddenRelocateTo').value = document.getElementById('relocateTo').value.trim();
+            document.getElementById('hiddenRelocationDate').value = document.getElementById('relocationDate').value;
+            document.getElementById('hiddenMessage').value = document.getElementById('message').value.trim();
 
             const formData = new FormData(form);
             contactFormMessage.classList.remove('hidden', 'bg-[#FEE2E2]', 'text-[#991B1B]');
@@ -232,8 +240,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         contactForm.addEventListener('input', function(event) {
             const field = event.target;
-            if (!field.name || !field.validity) return;
-            const errorEl = contactForm.querySelector(`[data-error="${field.name}"]`);
+            if (!field.id || !field.validity) return;
+            const errorEl = contactForm.querySelector(`[data-error="${field.id}"]`);
             if (field.checkValidity()) {
                 if (errorEl) {
                     errorEl.classList.add('hidden');
