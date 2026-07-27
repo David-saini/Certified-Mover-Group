@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(() => {
                 contactFormMessage.classList.remove('bg-[#ECFDF5]', 'text-[#06599F]');
                 contactFormMessage.classList.add('bg-[#FEE2E2]', 'text-[#991B1B]');
-                contactFormMessage.textContent = 'Submission failed. Please try again or contact lakshaysaini92558@gmail.com directly.';
+                contactFormMessage.textContent = 'Submission failed. Please try again or contact director.movers@gmail.com directly.';
             });
         });
 
