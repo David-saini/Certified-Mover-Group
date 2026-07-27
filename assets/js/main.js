@@ -281,6 +281,44 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         });
     }
+
+    const counterElements = document.querySelectorAll('.count-counter');
+    if (counterElements.length) {
+        const startCounter = (counter) => {
+            const target = parseInt(counter.dataset.target, 10) || 0;
+            const suffix = counter.dataset.suffix || '';
+            const duration = 1800;
+            const startTime = performance.now();
+
+            const animate = (currentTime) => {
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                const currentValue = Math.floor(progress * target);
+                counter.textContent = currentValue.toLocaleString() + suffix;
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    counter.textContent = target.toLocaleString() + suffix;
+                }
+            };
+
+            requestAnimationFrame(animate);
+        };
+
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    startCounter(entry.target);
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        counterElements.forEach((counter) => {
+            counter.textContent = '0' + (counter.dataset.suffix || '');
+            observer.observe(counter);
+        });
+    }
 });
 
 // Service FAQ Toggle Function

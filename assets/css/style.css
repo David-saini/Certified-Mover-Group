@@ -87,3 +87,11 @@ transition: all 500ms linear;
 .service-faq-icon {
     transition: transform 300ms ease-in-out;
 }
+
+.counter-card {
+    min-height: 190px;
+}
+
+.count-counter {
+    letter-spacing: -0.04em;
+}
