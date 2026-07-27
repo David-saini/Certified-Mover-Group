@@ -155,6 +155,83 @@ document.addEventListener('DOMContentLoaded', function() {
             behavior: 'smooth'
         });
     });
+
+    const contactForm = document.getElementById('contactForm');
+    const contactFormMessage = document.getElementById('contactFormMessage');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = event.currentTarget;
+            let formIsValid = true;
+
+            const validationFields = [
+                { name: 'fullName', message: 'Please enter your full name.' },
+                { name: 'mobile', message: 'Please enter a valid mobile number.' },
+                { name: 'email', message: 'Please enter a valid email address.' },
+                { name: 'relocateFrom', message: 'Please enter your current location.' },
+                { name: 'relocateTo', message: 'Please enter your destination.' },
+                { name: 'relocationDate', message: 'Please choose a relocation date.' }
+            ];
+
+            validationFields.forEach(({ name, message }) => {
+                const field = form.elements[name];
+                const errorEl = form.querySelector(`[data-error="${name}"]`);
+                if (!field.checkValidity()) {
+                    formIsValid = false;
+                    if (errorEl) {
+                        errorEl.textContent = message;
+                        errorEl.classList.remove('hidden');
+                    }
+                    field.classList.add('border-red-500', 'ring-2', 'ring-red-100');
+                } else {
+                    if (errorEl) {
+                        errorEl.classList.add('hidden');
+                    }
+                    field.classList.remove('border-red-500', 'ring-2', 'ring-red-100');
+                }
+            });
+
+            if (!formIsValid) {
+                contactFormMessage.classList.remove('hidden', 'bg-[#ECFDF5]', 'text-[#06599F]');
+                contactFormMessage.classList.add('bg-[#FEE2E2]', 'text-[#991B1B]');
+                contactFormMessage.textContent = 'Please fix the errors above and try again.';
+                return;
+            }
+
+            const formData = new FormData(form);
+            const values = {
+                'Full Name': formData.get('fullName'),
+                'Mobile No.': formData.get('mobile'),
+                'Email ID': formData.get('email'),
+                'Relocate From': formData.get('relocateFrom'),
+                'Relocate To': formData.get('relocateTo'),
+                'Relocation Date': formData.get('relocationDate'),
+                'Message': formData.get('message') || ''
+            };
+
+            const bodyLines = Object.entries(values).map(([key, value]) => `${key}: ${value}`);
+            const mailtoLink = `mailto:lakshaysaini92558@gmail.com?subject=${encodeURIComponent('Certified Mover Group Contact Form Submission')}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+
+            contactFormMessage.classList.remove('hidden', 'bg-[#FEE2E2]', 'text-[#991B1B]');
+            contactFormMessage.classList.add('bg-[#ECFDF5]', 'text-[#06599F]');
+            contactFormMessage.textContent = 'Your details are ready to send. Please confirm in your email client.';
+            window.location.href = mailtoLink;
+            form.reset();
+        });
+
+        contactForm.addEventListener('input', function(event) {
+            const field = event.target;
+            if (!field.name || !field.validity) return;
+            const errorEl = contactForm.querySelector(`[data-error="${field.name}"]`);
+            if (field.checkValidity()) {
+                if (errorEl) {
+                    errorEl.classList.add('hidden');
+                }
+                field.classList.remove('border-red-500', 'ring-2', 'ring-red-100');
+            }
+        });
+    }
 });
 
 document.addEventListener('DOMContentLoaded', function() {
