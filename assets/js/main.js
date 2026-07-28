@@ -1,4 +1,4 @@
-// Mobile Menu Toggle Script
+﻿// Mobile Menu Toggle Script
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -83,6 +83,69 @@ document.addEventListener('DOMContentLoaded', function() {
         icon.style.transform = 'rotate(0deg)';
     });
 });
+
+// Reviews list rendering and Google review redirect
+(function() {
+    const storageKey = 'cmg_testimonials';
+    const openBtn = document.getElementById('openReviewModal');
+    const list = document.getElementById('testimonials-list');
+    const googleReviewUrl = 'https://www.google.com/maps/search/?api=1&query=SwiftMove+Packers+%26+Movers+reviews';
+
+    if (!list) return;
+
+    function escapeHTML(s) {
+        return String(s).replace(/[&<>"']/g, function(m) {
+            return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[m];
+        });
+    }
+
+    function loadReviews() {
+        try {
+            const raw = localStorage.getItem(storageKey) || '[]';
+            const arr = JSON.parse(raw);
+            renderReviews(arr);
+        } catch (e) {
+            console.error('Failed to load testimonials', e);
+            renderReviews([]);
+        }
+    }
+
+    function renderReviews(arr) {
+        list.innerHTML = '';
+        if (!arr || !arr.length) {
+            list.innerHTML = '<p class="text-gray-600">No testimonials available yet.</p>';
+            return;
+        }
+
+        arr.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-4 rounded shadow';
+            const ratingStars = '★'.repeat(Number(item.rating || 5));
+            card.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <div class="flex-1">
+                        <h4 class="font-semibold">${escapeHTML(item.name)}</h4>
+                        <p class="text-sm text-gray-500">${escapeHTML(item.role || '')}</p>
+                        <p class="mt-2 text-gray-700">${escapeHTML(item.message)}</p>
+                        <p class="text-xs text-gray-400 mt-2">${escapeHTML(item.date || '')}</p>
+                    </div>
+                    <div class="text-yellow-400 font-semibold text-lg">${ratingStars}</div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    if (openBtn) {
+        openBtn.addEventListener('click', function() {
+            window.open(googleReviewUrl, '_blank');
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadReviews();
+    });
+})();
 
 // Accordion Toggle Function
 function toggleAccordion(button) {
@@ -390,3 +453,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
