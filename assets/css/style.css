@@ -95,3 +95,53 @@ transition: all 500ms linear;
 .count-counter {
     letter-spacing: -0.04em;
 }
+
+.swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
+    content: '' !important;
+}
+
+.swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
+    content: '' !important;
+}
+
+.testimonial-swiper .swiper-button-prev,
+.testimonial-swiper .swiper-button-next {
+    width: auto;
+    height: auto;
+    margin-top: 0;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.testimonial-swiper .swiper-button-prev::after,
+.testimonial-swiper .swiper-button-next::after {
+    display: none !important;
+}
+
+.testimonial-swiper .swiper-button-prev img,
+.testimonial-swiper .swiper-button-next img {
+    display: block;
+    width: 44px;
+    height: 44px;
+}
+
+.testimonial-swiper .swiper-pagination {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.testimonial-swiper .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: #C7C7C7;
+    opacity: 1;
+}
+
+.testimonial-swiper .swiper-pagination-bullet-active {
+    background: #06599F;
+}

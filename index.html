@@ -45,14 +45,14 @@
     <nav class="py-3 sm:py-5">
         <div class="container mx-auto">
             <div class="flex justify-between items-center">
-                <div class="flex items-center">
+                <a href="/" class="flex items-center">
                     <img src="/assets/images/svg/nav-logo.svg" alt="Certified Mover Group" class="w-full max-w-[170px]">
-                </div>
+                </a>
                 
                 <!-- Desktop Menu -->
                 <div class="hidden lg:flex xl:space-x-9 lg:space-x-5">
                     <a href="/" class="text-[#06599F] hover:text-[#06599F] transition-colors text-base">Home</a>
-                    <a href="/about" class="text-[#010101] hover:text-[#06599F] transition-colors text-base">About Us</a>
+                    <a href="/about-us" class="text-[#010101] hover:text-[#06599F] transition-colors text-base">About Us</a>
                     <a href="/services" class="text-[#010101] hover:text-[#06599F] transition-colors text-base">Services</a>
                     <a href="/how-it-works" class="text-[#010101] hover:text-[#06599F] transition-colors text-base">How It Works</a>
                     <a href="/testimonials" class="text-[#010101] hover:text-[#06599F] transition-colors text-base">Testimonials</a>
@@ -230,74 +230,76 @@ Our goal is to make relocation simple and stress-free for every customer.
     </section>
 
 <!-- our services -->
-  <section class="py-14">
+  <section>
     <div class="container mx-auto">
-    <div class="flex items-center justify-between gap-4 w-[100%]">
-      <div class="max-w-[560px]">
-         <div class="flex items-center justify-center lg:justify-start gap-3">
+
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 w-[100%]">
+      <div class="max-w-[500px] lg:max-w-[560px]">
+         <div class="flex items-center justify-center md:justify-start gap-3">
                <p class="text-[#06599F] font-semibold text-lg sm:text-xl md:text-2xl leading-[120%] mb-0">Our Services</p>
             <img src="/assets/images/svg/star.svg" alt="star">
          </div>
-            <h2 class="text-[#010101] text-[28px] sm:text-[32px] md:text-[40px] font-bold leading-tight text-center lg:text-start" style="margin-top: 10px; line-height: 120%;">
+            <h2 class="text-[#010101] text-[28px] sm:text-[32px] md:text-[40px] font-bold leading-tight text-center md:text-start" style="margin-top: 10px; line-height: 120%;">
                         Moving Services <span class="text-[#06599F]">We Provide</span></h2>
 
-                     <p class="text-[#434343] text-[14px] sm:text-base mt-2 sm:mt-4 md:mt-5 text-center lg:text-start leading-[150%]">We provide safe, reliable, and efficient packing and moving services to ensure a smooth and stress-free relocation experience.</p>
+                     <p class="text-[#434343] text-[14px] sm:text-base mt-2 sm:mt-4 md:mt-5 text-center md:text-start leading-[150%]">We provide safe, reliable, and efficient packing and moving services to ensure a smooth and stress-free relocation experience.</p>
      </div>
 
           <button class="bg-[#06599F] text-white py-3 px-6 sm:py-4 sm:px-8 rounded-[12px] hover:bg-[#054a85] transition-colors text-[14px] sm:text-base">Book Your Move</button>
     </div>
 
     <!-- Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-[60px]">
- 
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 mt-10 md:mt-[60px]">
 
       <!-- Home Relocation -->
-      <div class="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-        <img src="/assets/images/webp/img-1.webp" alt="Home Relocation" class="w-full h-56 object-cover rounded-lg mb-4">
-        <h3 class="text-lg font-semibold text-blue-600 mb-1">Home Relocation</h3>
-        <p class="text-gray-500 text-sm">Move your household items safely with expert packing, careful handling, and timely delivery.</p>
+      <div class="bg-[#FAFAFA] border border-[#B5B5B5] rounded-[10px] p-6 hover:shadow-[inset_0px_4px_20px_0px_#06599F40] hover:border-transparent transition-all">
+        <img src="/assets/images/webp/img-1.webp" alt="Home Relocation" class="w-full object-cover rounded-lg mb-10">
+        <h3 class="text-[32px] leading-[120%] font-semibold text-[#06599F] mb-4">Home Relocation</h3>
+        <p class="text-[#1E1E1E] text-base leading-[150%]">Move your household safely with expert packing, careful handling, and timely delivery.</p>
       </div>
- 
+
       <!-- Office Relocation -->
-      <div class="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-        <img src="/assets/images/webp/img-2.webp" alt="Office Relocation" class="w-full h-56 object-cover rounded-lg mb-4">
-        <h3 class="text-lg font-semibold text-blue-600 mb-1">Office Relocation</h3>
-        <p class="text-gray-500 text-sm">Minimize downtime with efficient office shifting solutions tailored for businesses.</p>
+      <div class="bg-[#FAFAFA] border border-[#B5B5B5] rounded-[10px] p-6 hover:shadow-[inset_0px_4px_20px_0px_#06599F40] hover:border-transparent transition-all">
+        <img src="/assets/images/webp/img-2.webp" alt="Office Relocation" class="w-full object-cover rounded-lg mb-10">
+        <h3 class="text-[32px] leading-[120%] font-semibold text-[#06599F] mb-4">Office Relocation</h3>
+        <p class="text-[#1E1E1E] text-base leading-[150%]">Minimize downtime with efficient office shifting solutions tailored for businesses.</p>
       </div>
- 
+
       <!-- Vehicle Transportation -->
-      <div class="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-        <img src="/assets/images/webp/img-3.webp" alt="Vehicle Transportation" class="w-full h-56 object-cover rounded-lg mb-4">
-        <h3 class="text-lg font-semibold text-blue-600 mb-1">Vehicle Transportation</h3>
-        <p class="text-gray-500 text-sm">Secure transportation for cars and bikes with real-time tracking and safe delivery.</p>
+      <div class="bg-[#FAFAFA] border border-[#B5B5B5] rounded-[10px] p-6 hover:shadow-[inset_0px_4px_20px_0px_#06599F40] hover:border-transparent transition-all">
+        <img src="/assets/images/webp/img-3.webp" alt="Vehicle Transportation" class="w-full object-cover rounded-lg mb-10">
+        <h3 class="text-[32px] leading-[120%] font-semibold text-[#06599F] mb-4">Vehicle Transportation</h3>
+        <p class="text-[#1E1E1E] text-base leading-[150%]">Secure transportation for cars and bikes with real-time tracking and safe delivery.</p>
       </div>
- 
+
       <!-- Packing & Unpacking -->
-      <div class="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-        <img src="/assets/images/webp/img-4.webp" alt="Packing & Unpacking" class="w-full h-56 object-cover rounded-lg mb-4">
-        <h3 class="text-lg font-semibold text-blue-600 mb-1">Packing & Unpacking</h3>
-        <p class="text-gray-500 text-sm">Premium packing materials and skilled professionals ensure complete protection.</p>
+      <div class="bg-[#FAFAFA] border border-[#B5B5B5] rounded-[10px] p-6 hover:shadow-[inset_0px_4px_20px_0px_#06599F40] hover:border-transparent transition-all">
+        <img src="/assets/images/webp/img-4.webp" alt="Packing & Unpacking" class="w-full object-cover rounded-lg mb-10">
+        <h3 class="text-[32px] leading-[120%] font-semibold text-[#06599F] mb-4">Packing & Unpacking</h3>
+        <p class="text-[#1E1E1E] text-base leading-[150%]">Premium packing materials and skilled professionals ensure complete protection.</p>
       </div>
- 
+      
       <!-- Storage Solutions -->
-      <div class="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-        <img src="/assets/images/webp/img-5.webp" alt="Storage Solutions" class="w-full h-56 object-cover rounded-lg mb-4">
-        <h3 class="text-lg font-semibold text-blue-600 mb-1">Storage Solutions</h3>
-        <p class="text-gray-500 text-sm">Short-term and long-term storage facilities with 24/7 security.</p>
+      <div class="bg-[#FAFAFA] border border-[#B5B5B5] rounded-[10px] p-6 hover:shadow-[inset_0px_4px_20px_0px_#06599F40] hover:border-transparent transition-all">
+        <img src="/assets/images/webp/img-5.webp" alt="Storage Solutions" class="w-full object-cover rounded-lg mb-10">
+        <h3 class="text-[32px] leading-[120%] font-semibold text-[#06599F] mb-4">Storage Solutions</h3>
+        <p class="text-[#1E1E1E] text-base leading-[150%]">Short-term and long-term storage facilities with 24/7 security.</p>
       </div>
- 
+
       <!-- International Moving -->
-      <div class="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
-        <img src="/assets/images/webp/img-6.webp" alt="International Moving" class="w-full h-56 object-cover rounded-lg mb-4">
-        <h3 class="text-lg font-semibold text-blue-600 mb-1">International Moving</h3>
-        <p class="text-gray-500 text-sm">Reliable overseas relocation with customs assistance and end-to-end support.</p>
+      <div class="bg-[#FAFAFA] border border-[#B5B5B5] rounded-[10px] p-6 hover:shadow-[inset_0px_4px_20px_0px_#06599F40] hover:border-transparent transition-all">
+        <img src="/assets/images/webp/img-6.webp" alt="International Moving" class="w-full object-cover rounded-lg mb-10">
+        <h3 class="text-[32px] leading-[120%] font-semibold text-[#06599F] mb-4">International Moving</h3>
+        <p class="text-[#1E1E1E] text-base leading-[150%]">Reliable overseas relocation with customs assistance and end-to-end support.</p>
       </div>
+
  
     </div>
+
   </section>
 
 <!-- our process -->
-    <section class="py-[50px] sm:py-[60px] md:py-20 lg:py-[100px]">
+    <section class="py-[50px] sm:py-[60px] md:py-20 lg:py-[100px] xl:py-[140px]">
         <div class="container">
             <!-- Badge -->
             <div class="flex items-center justify-center gap-3">
@@ -370,7 +372,7 @@ Our goal is to make relocation simple and stress-free for every customer.
     </section>
 
     <!-- testimonials -->
-    <section class="pb-[50px] sm:pb-[60px] md:pb-20 lg:pb-[100px]">
+    <section>
         <div class="container">
              <div class="flex items-center justify-between md:flex-row flex-col">
                 <div class="md:max-w-[500px] lg:max-w-[600px] xl:max-w-[892px]">
@@ -401,16 +403,22 @@ Our goal is to make relocation simple and stress-free for every customer.
                     </div>
                 </div>
 
-                                <div class="mt-10">
-                    <div class="swiper testimonial-swiper">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="flex flex-col md:flex-row items-center gap-6">
-                                    <img class="object-cover max-w-[335px] sm:max-w-[600px] md:max-w-[350px] lg:max-w-[461px] rounded-[10px]" src="./assets/images/webp/testimonials.webp" alt="testimonials">
+            </div>
 
-                                    <div class="border-[#B5B5B5] border-[1px] p-4 sm:p-6 rounded-[10px] max-w-[600px] md:max-w-full flex flex-col justify-between gap-4 bg-white">
+                <div class="max-w-[1290px] mx-auto px-5 mt-10 relative">
+
+                    <div class="swiper testimonial-swiper max-w-[450px] sm:max-w-[600px] md:max-w-[1140px] mx-auto">
+
+                        <div class="swiper-wrapper">
+
+                            <div class="swiper-slide">
+                                <div class="flex flex-col md:flex-row gap-6">
+                                    <img class="object-cover sm:max-w-[600px] md:max-w-[350px] lg:max-w-[461px] rounded-[10px]" src="./assets/images/webp/testimonials.webp" alt="testimonials">
+
+                                    
+                                    <div class="h-100 border-[#B5B5B5] border-[1px] p-4 sm:p-6 rounded-[10px] max-w-[600px] md:max-w-full flex flex-col justify-between gap-4 bg-white">
                                         <div class="flex items-center gap-[10px]">
-                                            <img class="max-w-[40px] rounded-full" src="./assets/images/webp/small-testimonial-img.webp" alt="testimonials">
+                                                <img class="max-w-[40px] rounded-full" src="./assets/images/webp/small-testimonial-img.webp" alt="testimonials">
                                             <div>
                                                 <p class="text-[14px] sm:text-base leading-[100%] text-black font-semibold">Megha Soni</p>
                                                 <p class="text-[#6B7280] text-xs sm:text-[14px]">Home Relocation</p>
@@ -422,56 +430,50 @@ Our goal is to make relocation simple and stress-free for every customer.
                                             <p class="font-normal text-[14px] sm:text-base text-[#1E1E1E] leading-[150%] mt-3">“I had an excellent experience with this packers and movers service. The team was very professional, polite, and efficient. They packed all my household items carefully using high-quality materials and ensured everything was transported safely. The entire relocation process was smooth, and all my belongings arrived on time without any damage. I would definitely recommend their services to anyone planning to move.”</p>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class="flex flex-col md:flex-row items-center gap-6">
-                                    <img class="object-cover max-w-[335px] sm:max-w-[600px] md:max-w-[350px] lg:max-w-[461px] rounded-[10px]" src="./assets/images/webp/testimonials.webp" alt="testimonials">
 
-                                    <div class="border-[#B5B5B5] border-[1px] p-4 sm:p-6 rounded-[10px] max-w-[600px] md:max-w-full flex flex-col justify-between gap-4 bg-white">
+                            <div class="swiper-slide">
+                                <div class="flex flex-col md:flex-row gap-6">
+                                    <img class="object-cover sm:max-w-[600px] md:max-w-[350px] lg:max-w-[461px] rounded-[10px]" src="./assets/images/webp/testimonials.webp" alt="testimonials">
+
+                                    
+                                    <div class="h-100 border-[#B5B5B5] border-[1px] p-4 sm:p-6 rounded-[10px] max-w-[600px] md:max-w-full flex flex-col justify-between gap-4 bg-white">
                                         <div class="flex items-center gap-[10px]">
-                                            <img class="max-w-[40px] rounded-full" src="./assets/images/webp/small-testimonial-img.webp" alt="testimonials">
+                                                <img class="max-w-[40px] rounded-full" src="./assets/images/webp/small-testimonial-img.webp" alt="testimonials">
                                             <div>
-                                                <p class="text-[14px] sm:text-base leading-[100%] text-black font-semibold">Rohit Sharma</p>
-                                                <p class="text-[#6B7280] text-xs sm:text-[14px]">Office Move</p>
+                                                <p class="text-[14px] sm:text-base leading-[100%] text-black font-semibold">Megha Soni</p>
+                                                <p class="text-[#6B7280] text-xs sm:text-[14px]">Home Relocation</p>
                                             </div>
                                         </div>
 
                                         <div class="flex flex-col">
                                             <img class="max-w-[122px]" src="./assets/images/svg/rating.svg" alt="rating">
-                                            <p class="font-normal text-[14px] sm:text-base text-[#1E1E1E] leading-[150%] mt-3">“The team arrived on time and handled everything with care. Their communication was clear, the packing was excellent, and the move was completed ahead of schedule. The crew was friendly and professional throughout. I highly recommend Certified Mover Group for any relocation.”</p>
+                                            <p class="font-normal text-[14px] sm:text-base text-[#1E1E1E] leading-[150%] mt-3">“I had an excellent experience with this packers and movers service. The team was very professional, polite, and efficient. They packed all my household items carefully using high-quality materials and ensured everything was transported safely. The entire relocation process was smooth, and all my belongings arrived on time without any damage. I would definitely recommend their services to anyone planning to move.”</p>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class="flex flex-col md:flex-row items-center gap-6">
-                                    <img class="object-cover max-w-[335px] sm:max-w-[600px] md:max-w-[350px] lg:max-w-[461px] rounded-[10px]" src="./assets/images/webp/testimonials.webp" alt="testimonials">
 
-                                    <div class="border-[#B5B5B5] border-[1px] p-4 sm:p-6 rounded-[10px] max-w-[600px] md:max-w-full flex flex-col justify-between gap-4 bg-white">
-                                        <div class="flex items-center gap-[10px]">
-                                            <img class="max-w-[40px] rounded-full" src="./assets/images/webp/small-testimonial-img.webp" alt="testimonials">
-                                            <div>
-                                                <p class="text-[14px] sm:text-base leading-[100%] text-black font-semibold">Priya Kapoor</p>
-                                                <p class="text-[#6B7280] text-xs sm:text-[14px]">Local Move</p>
-                                            </div>
-                                        </div>
+                        
 
-                                        <div class="flex flex-col">
-                                            <img class="max-w-[122px]" src="./assets/images/svg/rating.svg" alt="rating">
-                                            <p class="font-normal text-[14px] sm:text-base text-[#1E1E1E] leading-[150%] mt-3">“Amazing service from start to finish. The staff took care of every detail, from packing fragile items to unloading at the new place. Everything arrived in perfect condition and the cost was very fair. Best movers I have worked with so far.”</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
-                        <div class="swiper-pagination mt-8"></div>
-                        <div class="swiper-button-prev text-[#06599F]"></div>
-                        <div class="swiper-button-next text-[#06599F]"></div>
                     </div>
+
+                    <div class="flex items-center justify-center gap-4 mt-6">
+                        <button class="swiper-button-prev w-8 h-8 sm:w-10 sm:h-10" type="button" aria-label="Previous testimonial">
+                            <img src="./assets/images/svg/prev-arrow.svg" alt="Previous" class="w-10 h-10 sm:w-12 sm:h-12">
+                        </button>
+                        <button class="swiper-button-next w-8 h-8 sm:w-10 sm:h-10" type="button" aria-label="Next testimonial">
+                            <img src="./assets/images/svg/next-arrow.svg" alt="Next" class="w-10 h-10 sm:w-12 sm:h-12">
+                        </button>
+                    </div>
+
                 </div>
-</div>
+
     </section>
 
 <!-- form section -->
