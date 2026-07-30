@@ -118,6 +118,51 @@
             </div>
         </div>
 
+        <div class="grid gap-6 lg:grid-cols-[1.4fr_1fr] mb-10">
+            <div class="bg-white rounded-[10px] overflow-hidden shadow-sm">
+                <div class="p-6">
+                    <h4 class="text-xl font-semibold mb-3">Our Location on Google Maps</h4>
+                    <p class="text-sm text-gray-600 mb-4">Share your experience from this exact service location at 17.5373535, 78.511467.</p>
+                </div>
+                <iframe class="w-full min-h-[320px] border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps?q=17.5373535,78.511467&hl=en&z=18&output=embed"
+                    aria-label="Google Maps location"></iframe>
+            </div>
+
+            <div class="bg-white rounded-[10px] shadow-sm p-6">
+                <h4 class="text-xl font-semibold mb-4">Add a Review</h4>
+                <form id="reviewForm" class="grid gap-4">
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <label class="block">
+                            <span class="text-sm font-medium text-gray-700">Name</span>
+                            <input id="reviewName" type="text" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter your name">
+                        </label>
+                        <label class="block">
+                            <span class="text-sm font-medium text-gray-700">Designation / City</span>
+                            <input id="reviewRole" type="text" class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Customer role or city">
+                        </label>
+                    </div>
+                    <label class="block">
+                        <span class="text-sm font-medium text-gray-700">Rating</span>
+                        <select id="reviewRating" required class="mt-2 w-full rounded border border-gray-300 bg-white px-4 py-3 outline-none focus:border-[#06599F]">
+                            <option value="">Select rating</option>
+                            <option value="5">5 stars</option>
+                            <option value="4">4 stars</option>
+                            <option value="3">3 stars</option>
+                            <option value="2">2 stars</option>
+                            <option value="1">1 star</option>
+                        </select>
+                    </label>
+                    <label class="block">
+                        <span class="text-sm font-medium text-gray-700">Your Review</span>
+                        <textarea id="reviewMessage" required rows="5" class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Write your experience"></textarea>
+                    </label>
+                    <button type="submit" class="bg-[#06599F] text-white px-6 py-3 rounded-md hover:bg-[#054a85] transition-colors">Submit Review</button>
+                    <p id="reviewFormMessage" class="hidden text-sm leading-6"></p>
+                </form>
+            </div>
+        </div>
+
         <!-- Reviews list rendered here -->
         <div id="testimonials-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- JS will append review cards here -->

@@ -89,9 +89,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const storageKey = 'cmg_testimonials';
     const openBtn = document.getElementById('openReviewModal');
     const list = document.getElementById('testimonials-list');
-    const googleReviewUrl = 'https://www.google.com/maps/search/?api=1&query=SwiftMove+Packers+%26+Movers+reviews';
+    const reviewForm = document.getElementById('reviewForm');
+    const reviewFormMessage = document.getElementById('reviewFormMessage');
+    const googleReviewUrl = 'https://www.google.com/maps?q=17.5373535,78.511467&hl=en';
 
     if (!list) return;
+
+    function getStoredReviews() {
+        try {
+            return JSON.parse(localStorage.getItem(storageKey) || '[]');
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveReviews(arr) {
+        localStorage.setItem(storageKey, JSON.stringify(arr));
+    }
 
     function escapeHTML(s) {
         return String(s).replace(/[&<>"']/g, function(m) {
@@ -100,14 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function loadReviews() {
-        try {
-            const raw = localStorage.getItem(storageKey) || '[]';
-            const arr = JSON.parse(raw);
-            renderReviews(arr);
-        } catch (e) {
-            console.error('Failed to load testimonials', e);
-            renderReviews([]);
-        }
+        const arr = getStoredReviews();
+        renderReviews(arr);
     }
 
     function renderReviews(arr) {
@@ -139,6 +147,45 @@ document.addEventListener('DOMContentLoaded', function() {
     if (openBtn) {
         openBtn.addEventListener('click', function() {
             window.open(googleReviewUrl, '_blank');
+        });
+    }
+
+    if (reviewForm) {
+        reviewForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const nameField = document.getElementById('reviewName');
+            const roleField = document.getElementById('reviewRole');
+            const ratingField = document.getElementById('reviewRating');
+            const messageField = document.getElementById('reviewMessage');
+
+            const name = nameField.value.trim();
+            const role = roleField.value.trim();
+            const rating = ratingField.value;
+            const message = messageField.value.trim();
+
+            if (!name || !rating || !message) {
+                reviewFormMessage.textContent = 'Please complete all required fields before submitting.';
+                reviewFormMessage.className = 'text-sm leading-6 text-red-600';
+                reviewFormMessage.classList.remove('hidden');
+                return;
+            }
+
+            const reviews = getStoredReviews();
+            reviews.unshift({
+                name,
+                role,
+                rating,
+                message,
+                date: new Date().toLocaleDateString('en-GB')
+            });
+            saveReviews(reviews);
+            renderReviews(reviews);
+
+            reviewForm.reset();
+            reviewFormMessage.textContent = 'Thanks! Your review has been added.';
+            reviewFormMessage.className = 'text-sm leading-6 text-green-600';
+            reviewFormMessage.classList.remove('hidden');
         });
     }
 
