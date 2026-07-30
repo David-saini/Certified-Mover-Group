@@ -2,6 +2,28 @@
   -webkit-transform: translateZ(0);
 }
 
+.logos-overflow__logos-wrapper1 img,
+.logos-overflow__logos-wrapper2 img {
+  flex-shrink: 0;
+  display: block;
+}
+
+@media (max-width: 639px) {
+  .logos-overflow__logos-wrapper1 img,
+  .logos-overflow__logos-wrapper2 img {
+    width: 100px !important;
+    height: 100px !important;
+  }
+}
+
+@media (min-width: 640px) {
+  .logos-overflow__logos-wrapper1 img,
+  .logos-overflow__logos-wrapper2 img {
+    width: 177px !important;
+    height: 177px !important;
+  }
+}
+
 .logos-overflow__logos-wrapper1,
 .logos-overflow__logos-wrapper2 {
     animation-duration: 20s;
