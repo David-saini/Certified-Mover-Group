@@ -1,3 +1,7 @@
+html, body {
+scroll-behavior: smooth;
+}
+
 .Image-22 {
   -webkit-transform: translateZ(0);
 }
