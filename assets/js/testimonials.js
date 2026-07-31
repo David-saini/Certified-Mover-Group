@@ -476,12 +476,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // Add admin button for testing (remove in production)
+    // Clear all review data (for testing)
+    window.clearAllReviews = function() {
+        if (confirm('Are you sure you want to delete ALL reviews? This cannot be undone.')) {
+            localStorage.removeItem('reviews');
+            localStorage.removeItem('pendingReviews');
+            localStorage.removeItem('verifiedUser');
+            localStorage.removeItem('emailOtp');
+            localStorage.removeItem('emailOtpExpiry');
+            localStorage.removeItem('phoneOtp');
+            localStorage.removeItem('phoneOtpExpiry');
+            localStorage.removeItem('lastReviewSubmission');
+            
+            reviews = [];
+            pendingReviews = [];
+            currentUser = null;
+            
+            renderReviews();
+            showVerificationForm();
+            alert('All review data cleared successfully!');
+        }
+    };
+    
+    // Add admin buttons for testing (remove in production)
     setTimeout(() => {
-        const adminBtn = document.createElement('button');
-        adminBtn.className = 'fixed bottom-20 right-8 bg-gray-800 text-white px-4 py-2 rounded text-sm z-50';
-        adminBtn.textContent = 'Admin: Approve All';
-        adminBtn.onclick = window.approveAllReviews;
-        document.body.appendChild(adminBtn);
+        const adminContainer = document.createElement('div');
+        adminContainer.className = 'fixed bottom-20 right-8 flex flex-col gap-2 z-50';
+        
+        const approveBtn = document.createElement('button');
+        approveBtn.className = 'bg-gray-800 text-white px-4 py-2 rounded text-sm';
+        approveBtn.textContent = 'Admin: Approve All';
+        approveBtn.onclick = window.approveAllReviews;
+        
+        const clearBtn = document.createElement('button');
+        clearBtn.className = 'bg-red-600 text-white px-4 py-2 rounded text-sm';
+        clearBtn.textContent = 'Clear All Data';
+        clearBtn.onclick = window.clearAllReviews;
+        
+        adminContainer.appendChild(approveBtn);
+        adminContainer.appendChild(clearBtn);
+        document.body.appendChild(adminContainer);
     }, 1000);
 });
