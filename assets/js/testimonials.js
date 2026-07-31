@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('emailOtpExpiry', Date.now() + 300000); // 5 minutes
             
             document.getElementById('emailOtpSection').classList.remove('hidden');
-            showVerifyMessage(`Verification code sent to ${email}`, 'success');
+            showVerifyMessage(`Verification code: ${otp}`, 'success');
         });
         
         // Verify email OTP
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('phoneOtpExpiry', Date.now() + 300000); // 5 minutes
             
             document.getElementById('phoneOtpSection').classList.remove('hidden');
-            showVerifyMessage(`Verification code sent to ${phone}`, 'success');
+            showVerifyMessage(`Verification code: ${otp}`, 'success');
         });
         
         // Verify phone OTP
