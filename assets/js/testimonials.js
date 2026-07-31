@@ -4,24 +4,199 @@ document.addEventListener('DOMContentLoaded', function() {
     const testimonialsList = document.getElementById('testimonials-list');
     const reviewFormMessage = document.getElementById('reviewFormMessage');
     
+    // Admin email (only this email can access admin functions)
+    const ADMIN_EMAIL = 'director.movers@gmail.com';
+    
     // Get current verified user from localStorage
     let currentUser = JSON.parse(localStorage.getItem('verifiedUser'));
+    
+    // Get admin session from localStorage
+    let adminSession = JSON.parse(localStorage.getItem('adminSession'));
     
     // Load reviews from localStorage
     let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
     let pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
     
+    // Check if current user is admin
+    function isAdmin() {
+        return adminSession && adminSession.email === ADMIN_EMAIL;
+    }
+    
+    // Render reviews function (only approved reviews)
+    function renderReviews() {
+        testimonialsList.innerHTML = '';
+        
+        const approvedReviews = reviews.filter(r => r.status === 'approved');
+        
+        if (approvedReviews.length === 0) {
+            testimonialsList.innerHTML = '<p class="text-gray-500 text-center col-span-2">No reviews yet. Be the first to review!</p>';
+            return;
+        }
+        
+        approvedReviews.forEach(review => {
+            const isOwner = review.userId === currentUser?.id;
+            const isAdminUser = isAdmin();
+            const canDelete = isOwner || isAdminUser;
+            const reviewCard = createReviewCard(review, canDelete, isAdminUser);
+            testimonialsList.appendChild(reviewCard);
+        });
+    }
+    
     // Render all reviews on page load (only approved reviews)
     renderReviews();
     
-    // Check if user is verified before showing form
+    // Show appropriate UI based on user/admin status
     if (!currentUser) {
         showVerificationForm();
     } else {
         showReviewForm();
     }
     
-    // Show verification form
+    // Show admin login button or admin controls
+    renderAdminUI();
+    
+    // Render admin UI based on session
+    function renderAdminUI() {
+        // Remove existing admin container
+        const existingAdmin = document.querySelector('.admin-controls-container');
+        if (existingAdmin) {
+            existingAdmin.remove();
+        }
+        
+        const adminContainer = document.createElement('div');
+        adminContainer.className = 'admin-controls-container fixed bottom-[120px] right-8 flex flex-col gap-2 z-50';
+        
+        if (adminSession && adminSession.email === ADMIN_EMAIL) {
+            // Admin is logged in - show admin controls
+            const approveBtn = document.createElement('button');
+            approveBtn.className = 'bg-gray-800 text-white px-4 py-2 rounded text-sm';
+            approveBtn.textContent = 'Admin: Approve All';
+            approveBtn.onclick = window.approveAllReviews;
+            
+            const clearBtn = document.createElement('button');
+            clearBtn.className = 'bg-red-600 text-white px-4 py-2 rounded text-sm';
+            clearBtn.textContent = 'Clear All Data';
+            clearBtn.onclick = window.clearAllReviews;
+            
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'bg-gray-600 text-white px-4 py-2 rounded text-sm';
+            logoutBtn.textContent = 'Admin Logout';
+            logoutBtn.onclick = adminLogout;
+            
+            adminContainer.appendChild(approveBtn);
+            adminContainer.appendChild(clearBtn);
+            adminContainer.appendChild(logoutBtn);
+        } else {
+            // Admin not logged in - show login button
+            const loginBtn = document.createElement('button');
+            loginBtn.className = 'bg-gray-800 text-white px-4 py-2 rounded text-sm';
+            loginBtn.textContent = 'Admin Login';
+            loginBtn.onclick = showAdminLoginForm;
+            adminContainer.appendChild(loginBtn);
+        }
+        
+        document.body.appendChild(adminContainer);
+    }
+    
+    // Show admin login form
+    function showAdminLoginForm() {
+        const loginForm = document.createElement('div');
+        loginForm.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]';
+        loginForm.innerHTML = `
+            <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                <h3 class="text-xl font-semibold mb-4">Admin Login</h3>
+                <label class="block mb-3">
+                    <span class="text-sm font-medium text-gray-700">Admin Email</span>
+                    <input id="adminEmail" type="email" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter admin email">
+                </label>
+                <button id="sendAdminOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85] mb-3">Send Verification Code</button>
+                <div id="adminOtpSection" class="hidden">
+                    <label class="block mb-3">
+                        <span class="text-sm font-medium text-gray-700">Enter OTP</span>
+                        <input id="adminOtp" type="text" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter 6-digit code">
+                    </label>
+                    <button id="verifyAdminOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85] mb-3">Verify & Login</button>
+                </div>
+                <button id="closeAdminLogin" class="w-full bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">Cancel</button>
+                <p id="adminLoginMessage" class="hidden text-sm mt-3"></p>
+            </div>
+        `;
+        
+        document.body.appendChild(loginForm);
+        
+        // Send admin OTP
+        document.getElementById('sendAdminOtp').addEventListener('click', function() {
+            const email = document.getElementById('adminEmail').value.trim();
+            
+            if (email !== ADMIN_EMAIL) {
+                showAdminLoginMessage('Access denied. Only authorized admin can login.', 'error');
+                return;
+            }
+            
+            // Simulate OTP sending
+            const otp = Math.floor(100000 + Math.random() * 900000).toString();
+            localStorage.setItem('adminOtp', otp);
+            localStorage.setItem('adminOtpExpiry', Date.now() + 300000); // 5 minutes
+            
+            document.getElementById('adminOtpSection').classList.remove('hidden');
+            showAdminLoginMessage(`OTP sent to ${email}. (Demo OTP: ${otp})`, 'success');
+        });
+        
+        // Verify admin OTP
+        document.getElementById('verifyAdminOtp').addEventListener('click', function() {
+            const enteredOtp = document.getElementById('adminOtp').value.trim();
+            const storedOtp = localStorage.getItem('adminOtp');
+            const expiry = localStorage.getItem('adminOtpExpiry');
+            
+            if (Date.now() > expiry) {
+                showAdminLoginMessage('OTP has expired. Please request a new one.', 'error');
+                return;
+            }
+            
+            if (enteredOtp === storedOtp) {
+                const email = document.getElementById('adminEmail').value.trim();
+                adminSession = {
+                    email: email,
+                    loginAt: new Date().toISOString()
+                };
+                localStorage.setItem('adminSession', JSON.stringify(adminSession));
+                
+                showAdminLoginMessage('Admin login successful!', 'success');
+                setTimeout(() => {
+                    loginForm.remove();
+                    renderAdminUI();
+                    renderReviews(); // Re-render to show admin delete buttons on all reviews
+                }, 1000);
+            } else {
+                showAdminLoginMessage('Invalid OTP. Please try again.', 'error');
+            }
+        });
+        
+        // Close admin login
+        document.getElementById('closeAdminLogin').addEventListener('click', function() {
+            loginForm.remove();
+        });
+    }
+    
+    // Admin logout
+    function adminLogout() {
+        if (confirm('Are you sure you want to logout as admin?')) {
+            localStorage.removeItem('adminSession');
+            adminSession = null;
+            renderAdminUI();
+            renderReviews(); // Re-render to hide admin delete buttons
+            alert('Admin logged out successfully!');
+        }
+    }
+    
+    // Show admin login message
+    function showAdminLoginMessage(message, type) {
+        const msgEl = document.getElementById('adminLoginMessage');
+        msgEl.textContent = message;
+        msgEl.classList.remove('hidden', 'text-red-600', 'text-green-600');
+        msgEl.classList.add(type === 'error' ? 'text-red-600' : 'text-green-600');
+    }
+    
     function showVerificationForm() {
         const formContainer = reviewForm.parentElement;
         formContainer.innerHTML = `
@@ -306,26 +481,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
     
-    // Render reviews function (only approved reviews)
-    function renderReviews() {
-        testimonialsList.innerHTML = '';
-        
-        const approvedReviews = reviews.filter(r => r.status === 'approved');
-        
-        if (approvedReviews.length === 0) {
-            testimonialsList.innerHTML = '<p class="text-gray-500 text-center col-span-2">No reviews yet. Be the first to review!</p>';
-            return;
-        }
-        
-        approvedReviews.forEach(review => {
-            const isOwner = review.userId === currentUser?.id;
-            const reviewCard = createReviewCard(review, isOwner);
-            testimonialsList.appendChild(reviewCard);
-        });
-    }
-    
     // Create review card HTML
-    function createReviewCard(review, isOwner) {
+    function createReviewCard(review, canDelete, isAdminUser) {
         const card = document.createElement('div');
         card.className = 'bg-white rounded-[10px] shadow-sm p-6 relative';
         card.dataset.reviewId = review.id;
@@ -350,17 +507,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         <h5 class="font-semibold text-[#1E1E1E] flex items-center gap-2">
                             ${review.name}
                             ${review.verifiedUser ? '<svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>' : ''}
+                            ${isAdminUser ? '<span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">Admin</span>' : ''}
                         </h5>
                         <p class="text-sm text-gray-600">${review.role}</p>
                     </div>
                 </div>
-                ${isOwner ? `
+                ${canDelete ? `
                     <div class="flex gap-2">
-                        <button onclick="editReview(${review.id})" class="text-[#06599F] hover:text-[#054a85] p-1" title="Edit">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                            </svg>
-                        </button>
+                        ${!isAdminUser ? `
+                            <button onclick="editReview(${review.id})" class="text-[#06599F] hover:text-[#054a85] p-1" title="Edit">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                        ` : ''}
                         <button onclick="deleteReview(${review.id})" class="text-red-600 hover:text-red-700 p-1" title="Delete">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -397,7 +557,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const review = reviews.find(r => r.id === reviewId);
         if (!review) return;
         
-        // Check if current user is the owner
+        // Check if current user is the owner (admin cannot edit, only delete)
         if (review.userId !== currentUser?.id) {
             alert('You can only edit your own reviews!');
             return;
@@ -423,13 +583,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const review = reviews.find(r => r.id === reviewId);
         if (!review) return;
         
-        // Check if current user is the owner
-        if (review.userId !== currentUser?.id) {
+        // Check if current user is the owner OR admin
+        const isOwner = review.userId === currentUser?.id;
+        const isAdminUser = isAdmin();
+        
+        if (!isOwner && !isAdminUser) {
             alert('You can only delete your own reviews!');
             return;
         }
         
-        if (confirm('Are you sure you want to delete this review?')) {
+        const confirmMessage = isAdminUser 
+            ? `Are you sure you want to delete this review by ${review.name}? (Admin action)`
+            : 'Are you sure you want to delete this review?';
+            
+        if (confirm(confirmMessage)) {
             reviews = reviews.filter(r => r.id !== reviewId);
             localStorage.setItem('reviews', JSON.stringify(reviews));
             renderReviews();
@@ -461,8 +628,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return /^[0-9]{10}$/.test(phone.replace(/\D/g, ''));
     }
     
-    // Admin function to approve reviews (for demo purposes)
+    // Admin function to approve reviews (admin only)
     window.approveAllReviews = function() {
+        // Check if user is admin
+        if (!isAdmin()) {
+            alert('Access denied. Only admin can approve reviews.');
+            return;
+        }
+        
         // Move all pending reviews to approved
         if (pendingReviews.length > 0) {
             reviews = [...pendingReviews.map(r => ({...r, status: 'approved'})), ...reviews];
@@ -476,9 +649,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // Clear all review data (for testing)
+    // Clear all review data (admin only)
     window.clearAllReviews = function() {
-        if (confirm('Are you sure you want to delete ALL reviews? This cannot be undone.')) {
+        // Check if user is admin
+        if (!isAdmin()) {
+            alert('Access denied. Only admin can clear all data.');
+            return;
+        }
+        
+        if (confirm('Are you sure you want to delete ALL reviews? This cannot be undone. (Admin action)')) {
             localStorage.removeItem('reviews');
             localStorage.removeItem('pendingReviews');
             localStorage.removeItem('verifiedUser');
@@ -497,24 +676,4 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('All review data cleared successfully!');
         }
     };
-    
-    // Add admin buttons for testing (remove in production)
-    setTimeout(() => {
-        const adminContainer = document.createElement('div');
-        adminContainer.className = 'fixed bottom-[120px] right-8 flex flex-col gap-2 z-50';
-        
-        const approveBtn = document.createElement('button');
-        approveBtn.className = 'bg-gray-800 text-white px-4 py-2 rounded text-sm';
-        approveBtn.textContent = 'Admin: Approve All';
-        approveBtn.onclick = window.approveAllReviews;
-        
-        const clearBtn = document.createElement('button');
-        clearBtn.className = 'bg-red-600 text-white px-4 py-2 rounded text-sm';
-        clearBtn.textContent = 'Clear All Data';
-        clearBtn.onclick = window.clearAllReviews;
-        
-        adminContainer.appendChild(approveBtn);
-        adminContainer.appendChild(clearBtn);
-        document.body.appendChild(adminContainer);
-    }, 1000);
 });
