@@ -276,6 +276,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     verifiedAt: new Date().toISOString()
                 };
                 localStorage.setItem('verifiedUser', JSON.stringify(currentUser));
+                
+                // Clear OTP data to force new OTP generation for next login
+                localStorage.removeItem('emailOtp');
+                localStorage.removeItem('emailOtpExpiry');
+                
                 showVerifyMessage('Verification successful!', 'success');
                 setTimeout(() => showReviewForm(), 1000);
             } else {
@@ -319,6 +324,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     verifiedAt: new Date().toISOString()
                 };
                 localStorage.setItem('verifiedUser', JSON.stringify(currentUser));
+                
+                // Clear OTP data to force new OTP generation for next login
+                localStorage.removeItem('phoneOtp');
+                localStorage.removeItem('phoneOtpExpiry');
+                
                 showVerifyMessage('Verification successful!', 'success');
                 setTimeout(() => showReviewForm(), 1000);
             } else {
