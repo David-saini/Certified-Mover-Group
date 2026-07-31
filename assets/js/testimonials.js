@@ -332,10 +332,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showReviewForm() {
         const formContainer = reviewForm.parentElement;
         formContainer.innerHTML = `
-            <div class="flex items-center justify-between mb-4">
-                <h4 class="text-xl font-semibold">Add a Review</h4>
-                <button id="logoutBtn" class="text-sm text-red-600 hover:text-red-700">Logout</button>
-            </div>
+            <h4 class="text-xl font-semibold mb-4">Add a Review</h4>
             <p class="text-sm text-green-600 mb-4 flex items-center gap-2">
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                 Verified as ${currentUser.type === 'email' ? currentUser.id : 'phone user'}
@@ -373,13 +370,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Re-attach form handler
         attachFormHandler();
-        
-        // Logout handler
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            localStorage.removeItem('verifiedUser');
-            currentUser = null;
-            location.reload(); // Immediate page reload
-        });
     }
     
     // Attach form handler
