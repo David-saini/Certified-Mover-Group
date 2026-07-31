@@ -501,7 +501,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add admin buttons for testing (remove in production)
     setTimeout(() => {
         const adminContainer = document.createElement('div');
-        adminContainer.className = 'fixed bottom-20 right-8 flex flex-col gap-2 z-50';
+        adminContainer.className = 'fixed bottom-24 right-8 flex flex-col gap-2 z-50';
         
         const approveBtn = document.createElement('button');
         approveBtn.className = 'bg-gray-800 text-white px-4 py-2 rounded text-sm';
