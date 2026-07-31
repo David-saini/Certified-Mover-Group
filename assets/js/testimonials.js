@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <h4 class="text-xl font-semibold mb-4">Verify Your Identity</h4>
             <p class="text-sm text-gray-600 mb-4">Please verify your email or phone number to submit a genuine review.</p>
             
-            <div class="flex gap-2 mb-4">
+            <div class="flex flex-col sm:flex-row gap-2 mb-4">
                 <button id="emailVerifyBtn" class="flex-1 bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85]">Verify with Email</button>
                 <button id="phoneVerifyBtn" class="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">Verify with Phone</button>
             </div>
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button id="sendEmailOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85]">Send Verification Code</button>
                 <div id="emailOtpSection" class="hidden mt-3">
                     <label class="block mb-3">
-                        <span class="text-sm font-medium text-gray-700">Enter OTP</span>
+                        <span class="text-sm font-medium text-gray-700">Verification Code</span>
                         <input id="emailOtp" type="text" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter 6-digit code">
                     </label>
                     <button id="verifyEmailOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85]">Verify & Continue</button>
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button id="sendPhoneOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85]">Send Verification Code</button>
                 <div id="phoneOtpSection" class="hidden mt-3">
                     <label class="block mb-3">
-                        <span class="text-sm font-medium text-gray-700">Enter OTP</span>
+                        <span class="text-sm font-medium text-gray-700">Verification Code</span>
                         <input id="phoneOtp" type="text" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter 6-digit code">
                     </label>
                     <button id="verifyPhoneOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85]">Verify & Continue</button>
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('emailOtpExpiry', Date.now() + 300000); // 5 minutes
             
             document.getElementById('emailOtpSection').classList.remove('hidden');
-            showVerifyMessage(`OTP sent to ${email}. (Demo OTP: ${otp})`, 'success');
+            showVerifyMessage(`Verification code sent to ${email}`, 'success');
         });
         
         // Verify email OTP
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const expiry = localStorage.getItem('emailOtpExpiry');
             
             if (Date.now() > expiry) {
-                showVerifyMessage('OTP has expired. Please request a new one.', 'error');
+                showVerifyMessage('Verification code has expired. Please request a new one.', 'error');
                 return;
             }
             
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showVerifyMessage('Verification successful!', 'success');
                 showReviewForm(); // Show immediately without delay
             } else {
-                showVerifyMessage('Invalid OTP. Please try again.', 'error');
+                showVerifyMessage('Invalid verification code. Please try again.', 'error');
             }
         });
         
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('phoneOtpExpiry', Date.now() + 300000); // 5 minutes
             
             document.getElementById('phoneOtpSection').classList.remove('hidden');
-            showVerifyMessage(`OTP sent to ${phone}. (Demo OTP: ${otp})`, 'success');
+            showVerifyMessage(`Verification code sent to ${phone}`, 'success');
         });
         
         // Verify phone OTP
@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const expiry = localStorage.getItem('phoneOtpExpiry');
             
             if (Date.now() > expiry) {
-                showVerifyMessage('OTP has expired. Please request a new one.', 'error');
+                showVerifyMessage('Verification code has expired. Please request a new one.', 'error');
                 return;
             }
             
@@ -326,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showVerifyMessage('Verification successful!', 'success');
                 showReviewForm(); // Show immediately without delay
             } else {
-                showVerifyMessage('Invalid OTP. Please try again.', 'error');
+                showVerifyMessage('Invalid verification code. Please try again.', 'error');
             }
         });
     }
