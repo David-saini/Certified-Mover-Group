@@ -157,9 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm('Are you sure you want to logout as admin?')) {
             localStorage.removeItem('adminSession');
             adminSession = null;
-            renderAdminUI();
-            renderReviews(); // Re-render to hide admin delete buttons
-            setTimeout(() => location.reload(), 500); // Reload page after admin logout
+            location.reload(); // Immediate page reload
         }
     }
     
@@ -381,8 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('verifiedUser');
             currentUser = null;
-            showVerificationForm();
-            setTimeout(() => location.reload(), 500); // Reload page after logout
+            location.reload(); // Immediate page reload
         });
     }
     
