@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
     let pendingReviews = []; // No longer using pending reviews, but keeping for compatibility
     
+    // Debug: Log loaded reviews
+    console.log('Loaded reviews from localStorage:', reviews.length, 'reviews');
+    
     // Check if current user is admin
     function isAdmin() {
         return adminSession && adminSession.email === ADMIN_EMAIL;
@@ -26,6 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Render reviews function (show all reviews publicly)
     function renderReviews() {
         testimonialsList.innerHTML = '';
+        
+        // Debug: Log rendering
+        console.log('Rendering reviews:', reviews.length, 'reviews');
         
         // Show all reviews (no status filter - all reviews are public)
         const allReviews = reviews;
@@ -437,6 +443,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add to approved reviews (immediately visible)
         reviews.unshift(newReview);
         localStorage.setItem('reviews', JSON.stringify(reviews));
+        
+        // Debug: Log saved reviews
+        console.log('Saved reviews to localStorage:', reviews.length, 'reviews');
         
         // Update last submission time
         localStorage.setItem('lastReviewSubmission', Date.now());
