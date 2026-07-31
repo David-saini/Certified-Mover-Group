@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load reviews from localStorage
     let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-    let pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+    let pendingReviews = []; // No longer using pending reviews, but keeping for compatibility
     
     // Check if current user is admin
     function isAdmin() {
@@ -47,10 +47,10 @@ document.addEventListener('DOMContentLoaded', function() {
     renderReviews();
     
     // Show appropriate UI based on user/admin status
-    if (!currentUser) {
-        showVerificationForm();
+    if (currentUser) {
+        showReviewForm(); // Show review form immediately if user is already verified
     } else {
-        showReviewForm();
+        showVerificationForm(); // Show verification form if user is not verified
     }
     
     // Show admin login button or admin controls
@@ -69,11 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (adminSession && adminSession.email === ADMIN_EMAIL) {
             // Admin is logged in - show admin controls
-            const approveBtn = document.createElement('button');
-            approveBtn.className = 'bg-gray-800 text-white px-4 py-2 rounded text-sm';
-            approveBtn.textContent = 'Admin: Approve All';
-            approveBtn.onclick = window.approveAllReviews;
-            
             const clearBtn = document.createElement('button');
             clearBtn.className = 'bg-red-600 text-white px-4 py-2 rounded text-sm';
             clearBtn.textContent = 'Clear All Data';
@@ -84,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
             logoutBtn.textContent = 'Admin Logout';
             logoutBtn.onclick = adminLogout;
             
-            adminContainer.appendChild(approveBtn);
             adminContainer.appendChild(clearBtn);
             adminContainer.appendChild(logoutBtn);
         } else {
@@ -282,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.removeItem('emailOtpExpiry');
                 
                 showVerifyMessage('Verification successful!', 'success');
-                setTimeout(() => showReviewForm(), 1000);
+                showReviewForm(); // Show immediately without delay
             } else {
                 showVerifyMessage('Invalid OTP. Please try again.', 'error');
             }
@@ -330,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.removeItem('phoneOtpExpiry');
                 
                 showVerifyMessage('Verification successful!', 'success');
-                setTimeout(() => showReviewForm(), 1000);
+                showReviewForm(); // Show immediately without delay
             } else {
                 showVerifyMessage('Invalid OTP. Please try again.', 'error');
             }
@@ -449,13 +443,13 @@ document.addEventListener('DOMContentLoaded', function() {
             rating: parseInt(rating),
             message: message,
             date: new Date().toISOString(),
-            status: 'pending', // Reviews start as pending
+            status: 'approved', // Reviews are immediately approved for display
             verifiedUser: true
         };
         
-        // Add to pending reviews (awaiting admin approval)
-        pendingReviews.unshift(newReview);
-        localStorage.setItem('pendingReviews', JSON.stringify(pendingReviews));
+        // Add to approved reviews (immediately visible)
+        reviews.unshift(newReview);
+        localStorage.setItem('reviews', JSON.stringify(reviews));
         
         // Update last submission time
         localStorage.setItem('lastReviewSubmission', Date.now());
@@ -464,7 +458,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('reviewForm').reset();
         
         // Show success message
-        showReviewFormMessage('Review submitted successfully! It will be visible after admin approval.', 'success');
+        showReviewFormMessage('Review submitted successfully!', 'success');
+        
+        // Re-render reviews to show the new review
+        renderReviews();
         
         setTimeout(() => {
             document.getElementById('reviewFormMessage').classList.add('hidden');
@@ -618,27 +615,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return /^[0-9]{10}$/.test(phone.replace(/\D/g, ''));
     }
     
-    // Admin function to approve reviews (admin only)
-    window.approveAllReviews = function() {
-        // Check if user is admin
-        if (!isAdmin()) {
-            alert('Access denied. Only admin can approve reviews.');
-            return;
-        }
-        
-        // Move all pending reviews to approved
-        if (pendingReviews.length > 0) {
-            reviews = [...pendingReviews.map(r => ({...r, status: 'approved'})), ...reviews];
-            localStorage.setItem('reviews', JSON.stringify(reviews));
-            pendingReviews = [];
-            localStorage.setItem('pendingReviews', JSON.stringify(pendingReviews));
-            renderReviews();
-            alert('All pending reviews approved!');
-        } else {
-            alert('No pending reviews to approve.');
-        }
-    };
-    
     // Clear all review data (admin only)
     window.clearAllReviews = function() {
         // Check if user is admin
@@ -649,7 +625,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (confirm('Are you sure you want to delete ALL reviews? This cannot be undone. (Admin action)')) {
             localStorage.removeItem('reviews');
-            localStorage.removeItem('pendingReviews');
             localStorage.removeItem('verifiedUser');
             localStorage.removeItem('emailOtp');
             localStorage.removeItem('emailOtpExpiry');
@@ -658,7 +633,6 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem('lastReviewSubmission');
             
             reviews = [];
-            pendingReviews = [];
             currentUser = null;
             
             renderReviews();
