@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Admin email (only this email can access admin functions)
     const ADMIN_EMAIL = 'director.movers@gmail.com';
+    const ADMIN_PASSWORD = 'Movers@2007';
     
     // Get current verified user from localStorage
     let currentUser = JSON.parse(localStorage.getItem('verifiedUser'));
@@ -109,14 +110,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <span class="text-sm font-medium text-gray-700">Admin Email</span>
                     <input id="adminEmail" type="email" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter admin email">
                 </label>
-                <button id="sendAdminOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85] mb-3">Send Verification Code</button>
-                <div id="adminOtpSection" class="hidden">
-                    <label class="block mb-3">
-                        <span class="text-sm font-medium text-gray-700">Enter OTP</span>
-                        <input id="adminOtp" type="text" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter 6-digit code">
-                    </label>
-                    <button id="verifyAdminOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85] mb-3">Verify & Login</button>
-                </div>
+                <label class="block mb-3">
+                    <span class="text-sm font-medium text-gray-700">Password</span>
+                    <input id="adminPassword" type="password" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter password">
+                </label>
+                <button id="adminLoginBtn" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85] mb-3">Login</button>
                 <button id="closeAdminLogin" class="w-full bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">Cancel</button>
                 <p id="adminLoginMessage" class="hidden text-sm mt-3"></p>
             </div>
@@ -124,52 +122,34 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(loginForm);
         
-        // Send admin OTP
-        document.getElementById('sendAdminOtp').addEventListener('click', function() {
+        // Admin login with password
+        document.getElementById('adminLoginBtn').addEventListener('click', function() {
             const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
             
             if (email !== ADMIN_EMAIL) {
                 showAdminLoginMessage('Access denied. Only authorized admin can login.', 'error');
                 return;
             }
             
-            // Simulate OTP sending
-            const otp = Math.floor(100000 + Math.random() * 900000).toString();
-            localStorage.setItem('adminOtp', otp);
-            localStorage.setItem('adminOtpExpiry', Date.now() + 300000); // 5 minutes
-            
-            document.getElementById('adminOtpSection').classList.remove('hidden');
-            showAdminLoginMessage(`OTP sent to ${email}. (Demo OTP: ${otp})`, 'success');
-        });
-        
-        // Verify admin OTP
-        document.getElementById('verifyAdminOtp').addEventListener('click', function() {
-            const enteredOtp = document.getElementById('adminOtp').value.trim();
-            const storedOtp = localStorage.getItem('adminOtp');
-            const expiry = localStorage.getItem('adminOtpExpiry');
-            
-            if (Date.now() > expiry) {
-                showAdminLoginMessage('OTP has expired. Please request a new one.', 'error');
+            if (password !== ADMIN_PASSWORD) {
+                showAdminLoginMessage('Invalid password. Please try again.', 'error');
                 return;
             }
             
-            if (enteredOtp === storedOtp) {
-                const email = document.getElementById('adminEmail').value.trim();
-                adminSession = {
-                    email: email,
-                    loginAt: new Date().toISOString()
-                };
-                localStorage.setItem('adminSession', JSON.stringify(adminSession));
-                
-                showAdminLoginMessage('Admin login successful!', 'success');
-                setTimeout(() => {
-                    loginForm.remove();
-                    renderAdminUI();
-                    renderReviews(); // Re-render to show admin delete buttons on all reviews
-                }, 1000);
-            } else {
-                showAdminLoginMessage('Invalid OTP. Please try again.', 'error');
-            }
+            // Successful login
+            adminSession = {
+                email: email,
+                loginAt: new Date().toISOString()
+            };
+            localStorage.setItem('adminSession', JSON.stringify(adminSession));
+            
+            showAdminLoginMessage('Admin login successful!', 'success');
+            setTimeout(() => {
+                loginForm.remove();
+                renderAdminUI();
+                renderReviews(); // Re-render to show admin delete buttons on all reviews
+            }, 1000);
         });
         
         // Close admin login
