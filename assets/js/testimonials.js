@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
             adminSession = null;
             renderAdminUI();
             renderReviews(); // Re-render to hide admin delete buttons
-            alert('Admin logged out successfully!');
+            setTimeout(() => location.reload(), 500); // Reload page after admin logout
         }
     }
     
@@ -382,6 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem('verifiedUser');
             currentUser = null;
             showVerificationForm();
+            setTimeout(() => location.reload(), 500); // Reload page after logout
         });
     }
     
