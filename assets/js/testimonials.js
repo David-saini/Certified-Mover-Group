@@ -275,8 +275,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.removeItem('emailOtp');
                 localStorage.removeItem('emailOtpExpiry');
                 
-                showVerifyMessage('Verification successful!', 'success');
-                showReviewForm(); // Show immediately without delay
+                showVerifyMessage('Verification successful! Redirecting...', 'success');
+                setTimeout(() => location.reload(), 1000); // Reload page after 1 second
             } else {
                 showVerifyMessage('Invalid verification code. Please try again.', 'error');
             }
@@ -323,8 +323,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.removeItem('phoneOtp');
                 localStorage.removeItem('phoneOtpExpiry');
                 
-                showVerifyMessage('Verification successful!', 'success');
-                showReviewForm(); // Show immediately without delay
+                showVerifyMessage('Verification successful! Redirecting...', 'success');
+                setTimeout(() => location.reload(), 1000); // Reload page after 1 second
             } else {
                 showVerifyMessage('Invalid verification code. Please try again.', 'error');
             }
