@@ -36,10 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         allReviews.forEach(review => {
-            const isOwner = review.userId === currentUser?.id;
             const isAdminUser = isAdmin();
-            const canDelete = isOwner || isAdminUser;
-            const reviewCard = createReviewCard(review, canDelete, isAdminUser);
+            const reviewCard = createReviewCard(review, isAdminUser);
             testimonialsList.appendChild(reviewCard);
         });
     }
@@ -498,21 +496,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p class="text-sm text-gray-600">${review.role}</p>
                     </div>
                 </div>
-                ${canDelete ? `
-                    <div class="flex gap-2">
-                        ${!isAdminUser ? `
-                            <button onclick="editReview(${review.id})" class="text-[#06599F] hover:text-[#054a85] p-1" title="Edit">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                </svg>
-                            </button>
-                        ` : ''}
-                        <button onclick="deleteReview(${review.id})" class="text-red-600 hover:text-red-700 p-1" title="Delete">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                            </svg>
-                        </button>
-                    </div>
+                ${isAdminUser ? `
+                    <button onclick="deleteReview(${review.id})" class="text-red-600 hover:text-red-700 p-1" title="Delete Review (Admin Only)">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </button>
                 ` : ''}
             </div>
             <div class="flex items-center gap-1 mb-3">
@@ -538,51 +527,25 @@ document.addEventListener('DOMContentLoaded', function() {
         return stars;
     }
     
-    // Edit review function (global scope)
+    // Edit review function (disabled - reviews are permanent)
     window.editReview = function(reviewId) {
-        const review = reviews.find(r => r.id === reviewId);
-        if (!review) return;
-        
-        // Check if current user is the owner (admin cannot edit, only delete)
-        if (review.userId !== currentUser?.id) {
-            alert('You can only edit your own reviews!');
-            return;
-        }
-        
-        // Populate form with existing data
-        document.getElementById('reviewName').value = review.name;
-        document.getElementById('reviewRole').value = review.role;
-        document.getElementById('reviewRating').value = review.rating;
-        document.getElementById('reviewMessage').value = review.message;
-        
-        // Change submit button to update
-        const submitBtn = document.getElementById('reviewForm').querySelector('button[type="submit"]');
-        submitBtn.textContent = 'Update Review';
-        submitBtn.dataset.editingId = reviewId;
-        
-        // Scroll to form
-        document.getElementById('reviewForm').scrollIntoView({ behavior: 'smooth' });
+        alert('Reviews are permanent for public display. Only admin can manage reviews.');
     };
     
-    // Delete review function (global scope)
+    // Delete review function (admin only)
     window.deleteReview = function(reviewId) {
         const review = reviews.find(r => r.id === reviewId);
         if (!review) return;
         
-        // Check if current user is the owner OR admin
-        const isOwner = review.userId === currentUser?.id;
+        // Only admin can delete reviews (permanent reviews)
         const isAdminUser = isAdmin();
         
-        if (!isOwner && !isAdminUser) {
-            alert('You can only delete your own reviews!');
+        if (!isAdminUser) {
+            alert('Only admin can delete reviews. Reviews are permanent for public display.');
             return;
         }
         
-        const confirmMessage = isAdminUser 
-            ? `Are you sure you want to delete this review by ${review.name}? (Admin action)`
-            : 'Are you sure you want to delete this review?';
-            
-        if (confirm(confirmMessage)) {
+        if (confirm(`Are you sure you want to delete this review by ${review.name}? (Admin action - permanent deletion)`)) {
             reviews = reviews.filter(r => r.id !== reviewId);
             localStorage.setItem('reviews', JSON.stringify(reviews));
             renderReviews();
