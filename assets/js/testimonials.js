@@ -23,18 +23,19 @@ document.addEventListener('DOMContentLoaded', function() {
         return adminSession && adminSession.email === ADMIN_EMAIL;
     }
     
-    // Render reviews function (only approved reviews)
+    // Render reviews function (show all reviews publicly)
     function renderReviews() {
         testimonialsList.innerHTML = '';
         
-        const approvedReviews = reviews.filter(r => r.status === 'approved');
+        // Show all reviews (no status filter - all reviews are public)
+        const allReviews = reviews;
         
-        if (approvedReviews.length === 0) {
+        if (allReviews.length === 0) {
             testimonialsList.innerHTML = '<p class="text-gray-500 text-center col-span-2">No reviews yet. Be the first to review!</p>';
             return;
         }
         
-        approvedReviews.forEach(review => {
+        allReviews.forEach(review => {
             const isOwner = review.userId === currentUser?.id;
             const isAdminUser = isAdmin();
             const canDelete = isOwner || isAdminUser;
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Render all reviews on page load (only approved reviews)
+    // Render all reviews on page load (all reviews are public)
     renderReviews();
     
     // Show appropriate UI based on user/admin status
