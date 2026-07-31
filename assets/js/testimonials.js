@@ -1,76 +1,324 @@
-// Testimonials Review System with User Authentication
+// Testimonials Review System with User Verification & Moderation
 document.addEventListener('DOMContentLoaded', function() {
     const reviewForm = document.getElementById('reviewForm');
     const testimonialsList = document.getElementById('testimonials-list');
     const reviewFormMessage = document.getElementById('reviewFormMessage');
     
-    // Get current user from localStorage (simulated authentication)
-    let currentUser = localStorage.getItem('reviewUser');
+    // Get current verified user from localStorage
+    let currentUser = JSON.parse(localStorage.getItem('verifiedUser'));
     
     // Load reviews from localStorage
     let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+    let pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
     
-    // Render all reviews on page load
+    // Render all reviews on page load (only approved reviews)
     renderReviews();
     
+    // Check if user is verified before showing form
+    if (!currentUser) {
+        showVerificationForm();
+    } else {
+        showReviewForm();
+    }
+    
+    // Show verification form
+    function showVerificationForm() {
+        const formContainer = reviewForm.parentElement;
+        formContainer.innerHTML = `
+            <h4 class="text-xl font-semibold mb-4">Verify Your Identity</h4>
+            <p class="text-sm text-gray-600 mb-4">Please verify your email or phone number to submit a genuine review.</p>
+            
+            <div class="flex gap-2 mb-4">
+                <button id="emailVerifyBtn" class="flex-1 bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85]">Verify with Email</button>
+                <button id="phoneVerifyBtn" class="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">Verify with Phone</button>
+            </div>
+            
+            <div id="emailVerificationForm" class="hidden">
+                <label class="block mb-3">
+                    <span class="text-sm font-medium text-gray-700">Email Address</span>
+                    <input id="verifyEmail" type="email" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter your email">
+                </label>
+                <button id="sendEmailOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85]">Send Verification Code</button>
+                <div id="emailOtpSection" class="hidden mt-3">
+                    <label class="block mb-3">
+                        <span class="text-sm font-medium text-gray-700">Enter OTP</span>
+                        <input id="emailOtp" type="text" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter 6-digit code">
+                    </label>
+                    <button id="verifyEmailOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85]">Verify & Continue</button>
+                </div>
+            </div>
+            
+            <div id="phoneVerificationForm" class="hidden">
+                <label class="block mb-3">
+                    <span class="text-sm font-medium text-gray-700">Phone Number</span>
+                    <input id="verifyPhone" type="tel" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter your phone number">
+                </label>
+                <button id="sendPhoneOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85]">Send Verification Code</button>
+                <div id="phoneOtpSection" class="hidden mt-3">
+                    <label class="block mb-3">
+                        <span class="text-sm font-medium text-gray-700">Enter OTP</span>
+                        <input id="phoneOtp" type="text" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter 6-digit code">
+                    </label>
+                    <button id="verifyPhoneOtp" class="w-full bg-[#06599F] text-white px-4 py-2 rounded-md hover:bg-[#054a85]">Verify & Continue</button>
+                </div>
+            </div>
+            
+            <p id="verifyMessage" class="hidden text-sm mt-3"></p>
+        `;
+        
+        // Email verification handlers
+        document.getElementById('emailVerifyBtn').addEventListener('click', function() {
+            document.getElementById('emailVerificationForm').classList.remove('hidden');
+            document.getElementById('phoneVerificationForm').classList.add('hidden');
+            this.classList.add('bg-[#06599F]', 'text-white');
+            this.classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById('phoneVerifyBtn').classList.remove('bg-[#06599F]', 'text-white');
+            document.getElementById('phoneVerifyBtn').classList.add('bg-gray-200', 'text-gray-700');
+        });
+        
+        document.getElementById('phoneVerifyBtn').addEventListener('click', function() {
+            document.getElementById('phoneVerificationForm').classList.remove('hidden');
+            document.getElementById('emailVerificationForm').classList.add('hidden');
+            this.classList.add('bg-[#06599F]', 'text-white');
+            this.classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById('emailVerifyBtn').classList.remove('bg-[#06599F]', 'text-white');
+            document.getElementById('emailVerifyBtn').classList.add('bg-gray-200', 'text-gray-700');
+        });
+        
+        // Send email OTP (simulated)
+        document.getElementById('sendEmailOtp').addEventListener('click', function() {
+            const email = document.getElementById('verifyEmail').value.trim();
+            if (!email || !isValidEmail(email)) {
+                showVerifyMessage('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Simulate OTP sending
+            const otp = Math.floor(100000 + Math.random() * 900000).toString();
+            localStorage.setItem('emailOtp', otp);
+            localStorage.setItem('emailOtpExpiry', Date.now() + 300000); // 5 minutes
+            
+            document.getElementById('emailOtpSection').classList.remove('hidden');
+            showVerifyMessage(`OTP sent to ${email}. (Demo OTP: ${otp})`, 'success');
+        });
+        
+        // Verify email OTP
+        document.getElementById('verifyEmailOtp').addEventListener('click', function() {
+            const enteredOtp = document.getElementById('emailOtp').value.trim();
+            const storedOtp = localStorage.getItem('emailOtp');
+            const expiry = localStorage.getItem('emailOtpExpiry');
+            
+            if (Date.now() > expiry) {
+                showVerifyMessage('OTP has expired. Please request a new one.', 'error');
+                return;
+            }
+            
+            if (enteredOtp === storedOtp) {
+                const email = document.getElementById('verifyEmail').value.trim();
+                currentUser = {
+                    id: email,
+                    type: 'email',
+                    verifiedAt: new Date().toISOString()
+                };
+                localStorage.setItem('verifiedUser', JSON.stringify(currentUser));
+                showVerifyMessage('Verification successful!', 'success');
+                setTimeout(() => showReviewForm(), 1000);
+            } else {
+                showVerifyMessage('Invalid OTP. Please try again.', 'error');
+            }
+        });
+        
+        // Send phone OTP (simulated)
+        document.getElementById('sendPhoneOtp').addEventListener('click', function() {
+            const phone = document.getElementById('verifyPhone').value.trim();
+            if (!phone || !isValidPhone(phone)) {
+                showVerifyMessage('Please enter a valid phone number', 'error');
+                return;
+            }
+            
+            // Simulate OTP sending
+            const otp = Math.floor(100000 + Math.random() * 900000).toString();
+            localStorage.setItem('phoneOtp', otp);
+            localStorage.setItem('phoneOtpExpiry', Date.now() + 300000); // 5 minutes
+            
+            document.getElementById('phoneOtpSection').classList.remove('hidden');
+            showVerifyMessage(`OTP sent to ${phone}. (Demo OTP: ${otp})`, 'success');
+        });
+        
+        // Verify phone OTP
+        document.getElementById('verifyPhoneOtp').addEventListener('click', function() {
+            const enteredOtp = document.getElementById('phoneOtp').value.trim();
+            const storedOtp = localStorage.getItem('phoneOtp');
+            const expiry = localStorage.getItem('phoneOtpExpiry');
+            
+            if (Date.now() > expiry) {
+                showVerifyMessage('OTP has expired. Please request a new one.', 'error');
+                return;
+            }
+            
+            if (enteredOtp === storedOtp) {
+                const phone = document.getElementById('verifyPhone').value.trim();
+                currentUser = {
+                    id: phone,
+                    type: 'phone',
+                    verifiedAt: new Date().toISOString()
+                };
+                localStorage.setItem('verifiedUser', JSON.stringify(currentUser));
+                showVerifyMessage('Verification successful!', 'success');
+                setTimeout(() => showReviewForm(), 1000);
+            } else {
+                showVerifyMessage('Invalid OTP. Please try again.', 'error');
+            }
+        });
+    }
+    
+    // Show review form after verification
+    function showReviewForm() {
+        const formContainer = reviewForm.parentElement;
+        formContainer.innerHTML = `
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-xl font-semibold">Add a Review</h4>
+                <button id="logoutBtn" class="text-sm text-red-600 hover:text-red-700">Logout</button>
+            </div>
+            <p class="text-sm text-green-600 mb-4 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                Verified as ${currentUser.type === 'email' ? currentUser.id : 'phone user'}
+            </p>
+            <form id="reviewForm" class="grid gap-4">
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <label class="block">
+                        <span class="text-sm font-medium text-gray-700">Name</span>
+                        <input id="reviewName" type="text" required class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Enter your name">
+                    </label>
+                    <label class="block">
+                        <span class="text-sm font-medium text-gray-700">Designation / City</span>
+                        <input id="reviewRole" type="text" class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Customer role or city">
+                    </label>
+                </div>
+                <label class="block">
+                    <span class="text-sm font-medium text-gray-700">Rating</span>
+                    <select id="reviewRating" required class="mt-2 w-full rounded border border-gray-300 bg-white px-4 py-3 outline-none focus:border-[#06599F]">
+                        <option value="">Select rating</option>
+                        <option value="5">5 stars</option>
+                        <option value="4">4 stars</option>
+                        <option value="3">3 stars</option>
+                        <option value="2">2 stars</option>
+                        <option value="1">1 star</option>
+                    </select>
+                </label>
+                <label class="block">
+                    <span class="text-sm font-medium text-gray-700">Your Review</span>
+                    <textarea id="reviewMessage" required rows="5" class="mt-2 w-full rounded border border-gray-300 px-4 py-3 outline-none focus:border-[#06599F]" placeholder="Write your experience"></textarea>
+                </label>
+                <button type="submit" class="bg-[#06599F] text-white px-6 py-3 rounded-md hover:bg-[#054a85] transition-colors">Submit Review</button>
+                <p id="reviewFormMessage" class="hidden text-sm leading-6"></p>
+            </form>
+        `;
+        
+        // Re-attach form handler
+        attachFormHandler();
+        
+        // Logout handler
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('verifiedUser');
+            currentUser = null;
+            showVerificationForm();
+        });
+    }
+    
+    // Attach form handler
+    function attachFormHandler() {
+        const newForm = document.getElementById('reviewForm');
+        if (newForm) {
+            newForm.addEventListener('submit', handleReviewSubmit);
+        }
+    }
+    
     // Handle review submission
-    reviewForm.addEventListener('submit', function(e) {
+    function handleReviewSubmit(e) {
         e.preventDefault();
+        
+        // Rate limiting check
+        const lastSubmission = localStorage.getItem('lastReviewSubmission');
+        if (lastSubmission && Date.now() - lastSubmission < 60000) { // 1 minute cooldown
+            showReviewFormMessage('Please wait before submitting another review.', 'error');
+            return;
+        }
         
         const name = document.getElementById('reviewName').value.trim();
         const role = document.getElementById('reviewRole').value.trim();
         const rating = document.getElementById('reviewRating').value;
         const message = document.getElementById('reviewMessage').value.trim();
         
-        // Simple user identification using name (in production, use proper auth)
-        const userId = name.toLowerCase().replace(/\s+/g, '_') + '_' + Date.now();
+        // Validate review content
+        if (message.length < 20) {
+            showReviewFormMessage('Review must be at least 20 characters long.', 'error');
+            return;
+        }
         
-        if (!currentUser) {
-            currentUser = userId;
-            localStorage.setItem('reviewUser', currentUser);
+        if (message.length > 500) {
+            showReviewFormMessage('Review must be less than 500 characters.', 'error');
+            return;
+        }
+        
+        // Check for spam patterns
+        const spamPatterns = [
+            /http|www\.|\.com|\.org|\.net/i,
+            /buy|sell|cheap|free|discount|offer/i,
+            /click here|visit now|check this/i,
+            /test|demo|sample|fake/i
+        ];
+        
+        for (let pattern of spamPatterns) {
+            if (pattern.test(message)) {
+                showReviewFormMessage('Your review contains suspicious content. Please write a genuine review.', 'error');
+                return;
+            }
         }
         
         const newReview = {
             id: Date.now(),
-            userId: currentUser,
+            userId: currentUser.id,
             name: name,
             role: role || 'Customer',
             rating: parseInt(rating),
             message: message,
             date: new Date().toISOString(),
-            isOwner: true
+            status: 'pending', // Reviews start as pending
+            verifiedUser: true
         };
         
-        reviews.unshift(newReview);
-        localStorage.setItem('reviews', JSON.stringify(reviews));
+        // Add to pending reviews (awaiting admin approval)
+        pendingReviews.unshift(newReview);
+        localStorage.setItem('pendingReviews', JSON.stringify(pendingReviews));
+        
+        // Update last submission time
+        localStorage.setItem('lastReviewSubmission', Date.now());
         
         // Reset form
-        reviewForm.reset();
+        document.getElementById('reviewForm').reset();
         
         // Show success message
-        reviewFormMessage.textContent = 'Review submitted successfully!';
-        reviewFormMessage.classList.remove('hidden', 'text-red-600');
-        reviewFormMessage.classList.add('text-green-600');
+        showReviewFormMessage('Review submitted successfully! It will be visible after admin approval.', 'success');
         
         setTimeout(() => {
-            reviewFormMessage.classList.add('hidden');
-        }, 3000);
-        
-        // Re-render reviews
-        renderReviews();
-    });
+            document.getElementById('reviewFormMessage').classList.add('hidden');
+        }, 5000);
+    }
     
-    // Render reviews function
+    // Render reviews function (only approved reviews)
     function renderReviews() {
         testimonialsList.innerHTML = '';
         
-        if (reviews.length === 0) {
+        const approvedReviews = reviews.filter(r => r.status === 'approved');
+        
+        if (approvedReviews.length === 0) {
             testimonialsList.innerHTML = '<p class="text-gray-500 text-center col-span-2">No reviews yet. Be the first to review!</p>';
             return;
         }
         
-        reviews.forEach(review => {
-            const isOwner = review.userId === currentUser;
+        approvedReviews.forEach(review => {
+            const isOwner = review.userId === currentUser?.id;
             const reviewCard = createReviewCard(review, isOwner);
             testimonialsList.appendChild(reviewCard);
         });
@@ -99,7 +347,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         ${review.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
-                        <h5 class="font-semibold text-[#1E1E1E]">${review.name}</h5>
+                        <h5 class="font-semibold text-[#1E1E1E] flex items-center gap-2">
+                            ${review.name}
+                            ${review.verifiedUser ? '<svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>' : ''}
+                        </h5>
                         <p class="text-sm text-gray-600">${review.role}</p>
                     </div>
                 </div>
@@ -147,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!review) return;
         
         // Check if current user is the owner
-        if (review.userId !== currentUser) {
+        if (review.userId !== currentUser?.id) {
             alert('You can only edit your own reviews!');
             return;
         }
@@ -159,12 +410,12 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('reviewMessage').value = review.message;
         
         // Change submit button to update
-        const submitBtn = reviewForm.querySelector('button[type="submit"]');
+        const submitBtn = document.getElementById('reviewForm').querySelector('button[type="submit"]');
         submitBtn.textContent = 'Update Review';
         submitBtn.dataset.editingId = reviewId;
         
         // Scroll to form
-        reviewForm.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('reviewForm').scrollIntoView({ behavior: 'smooth' });
     };
     
     // Delete review function (global scope)
@@ -173,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!review) return;
         
         // Check if current user is the owner
-        if (review.userId !== currentUser) {
+        if (review.userId !== currentUser?.id) {
             alert('You can only delete your own reviews!');
             return;
         }
@@ -185,109 +436,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // Handle form submission for both add and edit
-    reviewForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const submitBtn = reviewForm.querySelector('button[type="submit"]');
-        const editingId = submitBtn.dataset.editingId;
-        
-        if (editingId) {
-            // Update existing review
-            const reviewIndex = reviews.findIndex(r => r.id === parseInt(editingId));
-            if (reviewIndex !== -1) {
-                const review = reviews[reviewIndex];
-                
-                // Verify ownership
-                if (review.userId !== currentUser) {
-                    alert('You can only edit your own reviews!');
-                    return;
-                }
-                
-                reviews[reviewIndex] = {
-                    ...review,
-                    name: document.getElementById('reviewName').value.trim(),
-                    role: document.getElementById('reviewRole').value.trim() || 'Customer',
-                    rating: parseInt(document.getElementById('reviewRating').value),
-                    message: document.getElementById('reviewMessage').value.trim(),
-                    date: new Date().toISOString() // Update date
-                };
-                
-                localStorage.setItem('reviews', JSON.stringify(reviews));
-                
-                // Reset form
-                reviewForm.reset();
-                submitBtn.textContent = 'Submit Review';
-                delete submitBtn.dataset.editingId;
-                
-                // Show success message
-                reviewFormMessage.textContent = 'Review updated successfully!';
-                reviewFormMessage.classList.remove('hidden', 'text-red-600');
-                reviewFormMessage.classList.add('text-green-600');
-                
-                setTimeout(() => {
-                    reviewFormMessage.classList.add('hidden');
-                }, 3000);
-                
-                renderReviews();
-            }
-        } else {
-            // Add new review (existing logic)
-            const name = document.getElementById('reviewName').value.trim();
-            const role = document.getElementById('reviewRole').value.trim();
-            const rating = document.getElementById('reviewRating').value;
-            const message = document.getElementById('reviewMessage').value.trim();
-            
-            const userId = name.toLowerCase().replace(/\s+/g, '_') + '_' + Date.now();
-            
-            if (!currentUser) {
-                currentUser = userId;
-                localStorage.setItem('reviewUser', currentUser);
-            }
-            
-            const newReview = {
-                id: Date.now(),
-                userId: currentUser,
-                name: name,
-                role: role || 'Customer',
-                rating: parseInt(rating),
-                message: message,
-                date: new Date().toISOString(),
-                isOwner: true
-            };
-            
-            reviews.unshift(newReview);
-            localStorage.setItem('reviews', JSON.stringify(reviews));
-            
-            reviewForm.reset();
-            
-            reviewFormMessage.textContent = 'Review submitted successfully!';
-            reviewFormMessage.classList.remove('hidden', 'text-red-600');
-            reviewFormMessage.classList.add('text-green-600');
-            
-            setTimeout(() => {
-                reviewFormMessage.classList.add('hidden');
-            }, 3000);
-            
-            renderReviews();
-        }
-    });
-    
-    // Add logout button functionality (for testing)
-    function addLogoutButton() {
-        const header = document.querySelector('nav .container');
-        const logoutBtn = document.createElement('button');
-        logoutBtn.className = 'text-sm text-gray-600 hover:text-[#06599F] ml-4';
-        logoutBtn.textContent = 'Logout';
-        logoutBtn.onclick = function() {
-            localStorage.removeItem('reviewUser');
-            currentUser = null;
-            alert('Logged out successfully!');
-            renderReviews();
-        };
-        header.appendChild(logoutBtn);
+    // Helper functions
+    function showVerifyMessage(message, type) {
+        const msgEl = document.getElementById('verifyMessage');
+        msgEl.textContent = message;
+        msgEl.classList.remove('hidden', 'text-red-600', 'text-green-600');
+        msgEl.classList.add(type === 'error' ? 'text-red-600' : 'text-green-600');
     }
     
-    // Uncomment below to add logout button for testing
-    // addLogoutButton();
+    function showReviewFormMessage(message, type) {
+        const msgEl = document.getElementById('reviewFormMessage');
+        if (msgEl) {
+            msgEl.textContent = message;
+            msgEl.classList.remove('hidden', 'text-red-600', 'text-green-600');
+            msgEl.classList.add(type === 'error' ? 'text-red-600' : 'text-green-600');
+        }
+    }
+    
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+    
+    function isValidPhone(phone) {
+        return /^[0-9]{10}$/.test(phone.replace(/\D/g, ''));
+    }
+    
+    // Admin function to approve reviews (for demo purposes)
+    window.approveAllReviews = function() {
+        // Move all pending reviews to approved
+        if (pendingReviews.length > 0) {
+            reviews = [...pendingReviews.map(r => ({...r, status: 'approved'})), ...reviews];
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+            pendingReviews = [];
+            localStorage.setItem('pendingReviews', JSON.stringify(pendingReviews));
+            renderReviews();
+            alert('All pending reviews approved!');
+        } else {
+            alert('No pending reviews to approve.');
+        }
+    };
+    
+    // Add admin button for testing (remove in production)
+    setTimeout(() => {
+        const adminBtn = document.createElement('button');
+        adminBtn.className = 'fixed bottom-20 right-8 bg-gray-800 text-white px-4 py-2 rounded text-sm z-50';
+        adminBtn.textContent = 'Admin: Approve All';
+        adminBtn.onclick = window.approveAllReviews;
+        document.body.appendChild(adminBtn);
+    }, 1000);
 });
