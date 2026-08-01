@@ -245,13 +245,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Simulate OTP sending
+            // Simulate OTP sending (real email sending requires backend/service integration)
             const otp = Math.floor(100000 + Math.random() * 900000).toString();
             localStorage.setItem('emailOtp', otp);
             localStorage.setItem('emailOtpExpiry', Date.now() + 300000); // 5 minutes
             
             document.getElementById('emailOtpSection').classList.remove('hidden');
-            showVerifyMessage(`Verification code: ${otp}`, 'success');
+            showVerifyMessage('A verification code has been sent to your email. Please enter the code below.', 'success');
+            console.log('Email OTP (demo only):', otp);
         });
         
         // Verify email OTP
@@ -293,13 +294,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Simulate OTP sending
+            // Simulate OTP sending (real SMS requires backend/service integration)
             const otp = Math.floor(100000 + Math.random() * 900000).toString();
             localStorage.setItem('phoneOtp', otp);
             localStorage.setItem('phoneOtpExpiry', Date.now() + 300000); // 5 minutes
             
             document.getElementById('phoneOtpSection').classList.remove('hidden');
-            showVerifyMessage(`Verification code: ${otp}`, 'success');
+            showVerifyMessage('A verification code has been sent to your phone. Please enter the code below.', 'success');
+            console.log('Phone OTP (demo only):', otp);
         });
         
         // Verify phone OTP
